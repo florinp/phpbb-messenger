@@ -1,6 +1,6 @@
 <?php
 
-namespace phpbb\messenger\event;
+namespace florinp\messenger\event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -25,7 +25,7 @@ class main_listener implements EventSubscriberInterface
 	
 	protected $user;
 	
-	public function __construct(\phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\messenger\models\main_model $model, \phpbb\user $user)
+	public function __construct(\phpbb\controller\helper $helper, \phpbb\template\template $template, \florinp\messenger\models\main_model $model, \phpbb\user $user)
 	{
 		$this->helper = $helper;
 		$this->template = $template;

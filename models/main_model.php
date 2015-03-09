@@ -1,6 +1,6 @@
 <?php
 
-namespace phpbb\messenger\models;
+namespace florinp\messenger\models;
 
 class main_model
 {
@@ -11,7 +11,7 @@ class main_model
 	protected $user;
 	protected $db;
 	
-	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $phpbb_db, \phpbb\user $user, \phpbb\messenger\libs\database $db)
+	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $phpbb_db, \phpbb\user $user, \florinp\messenger\libs\database $db)
 	{
 		$this->config = $config;
 		$this->helper = $helper;

@@ -1,6 +1,6 @@
 <?php
 
-namespace phpbb\messenger\libs;
+namespace florinp\messenger\libs;
 
 use PDO;
 
@@ -12,7 +12,7 @@ class database extends \PDO
 	{
 		global $phpbb_root_path;
 		
-		$database = $phpbb_root_path . 'ext/phpbb/messenger/db/messages.db';
+		$database = $phpbb_root_path . 'ext/florinp/messenger/db/messages.db'; 
 		parent::__construct('sqlite:'.$database);
 		parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}

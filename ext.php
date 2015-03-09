@@ -1,6 +1,6 @@
 <?php
 
-namespace phpbb\messenger;
+namespace florinp\messenger;
 
 class ext extends \phpbb\extension\base
 {

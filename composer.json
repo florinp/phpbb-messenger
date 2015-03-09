@@ -1,5 +1,5 @@
 {
-	"name": "phpbb/messenger",
+	"name": "florinp/messenger",
 	"type": "phpbb-extension",
 	"description": "Messenger extension for phpBB 3.1",
 	"homepage": "https://github.com/florinp/phpbb-messenger",

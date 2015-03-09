@@ -1,6 +1,6 @@
 <?php
 
-namespace phpbb\messenger\controller;
+namespace florinp\messenger\controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,7 +16,7 @@ class main
 	protected $model;
 	protected $request;
 	
-	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, \phpbb\messenger\models\main_model $model)
+	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, \florinp\messenger\models\main_model $model)
 	{
 		$this->config = $config;
 		$this->helper = $helper;
@@ -36,7 +36,7 @@ class main
 	
 	public function publish()
 	{
-		global $phpbb_root_path, $request;
+		global $request;
 		
 		/* AJAX check  */
 		$http_request = $request->server('HTTP_X_REQUESTED_WITH');
@@ -76,7 +76,7 @@ class main
 	
 	public function load()
 	{
-		global $phpbb_root_path, $request;
+		global $request;
 		
 		/* AJAX check  */
 		$http_request = $request->server('HTTP_X_REQUESTED_WITH');
