@@ -1,0 +1,28 @@
+{
+	"name": "phpbb/messenger",
+	"type": "phpbb-extension",
+	"description": "Messenger extension for phpBB 3.1",
+	"homepage": "https://github.com/florinp/phpbb-messenger",
+	"version": "1.0.0-dev",
+	"license": "GPL-2.0",
+	"authors": [{
+		"name": "Florin Pavel",
+		"email": "florin@hpcms.org",
+		"homepage": "https://github.com/florinp/",
+		"role": "Lead Developer"
+	}],
+	"require": {
+		"php": ">=5.3.3"
+	},
+	"require-dev": {
+		"phpbb/epv": "dev-master",
+		"mpratt/relativetime": "~1.0",
+		"symfony/http-foundation": "~2.0" 
+	},
+	"extra": {
+		"display-name": "Messenger",
+		"soft-require": {
+			"phpbb/phpbb": ">=3.1.0-RC2,<3.2.*@dev"
+		}
+	}
+} 

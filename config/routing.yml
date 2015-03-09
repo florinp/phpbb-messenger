@@ -1,0 +1,19 @@
+messenger_index:
+    path: /messenger
+    defaults: { _controller: phpbb.messenger.controller:index }
+    
+messenger_publish:
+    path: /messenger/publish
+    defaults: { _controller: phpbb.messenger.controller:publish }
+    
+messenger_load:
+    path: /messenger/load
+    defaults: { _controller: phpbb.messenger.controller:load }
+
+messenger_update_messages:
+    path: /messenger/update_messages
+    defaults: { _controller: phpbb.messenger.controller:updateMessages }
+    
+messenger_check_new_messages:
+    path: /messenger/check_new_messages
+    defaults: { _controller: phpbb.messenger.controller:checkForNewMessages }

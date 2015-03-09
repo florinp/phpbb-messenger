@@ -1,0 +1,6 @@
+.buildpath
+.settings/.jsdtscope
+.project
+.settings/*
+composer.lock
+vendor/*

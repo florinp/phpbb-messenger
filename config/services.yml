@@ -1,0 +1,36 @@
+imports:
+    - { resource: database.yml }
+services:
+    phpbb.messenger.controller:
+        class: phpbb\messenger\controller\main
+        arguments:
+            - @config
+            - @controller.helper
+            - @template
+            - @user
+            - @phpbb.messenger.model
+    
+    phpbb.messenger.listener:
+        class: phpbb\messenger\event\main_listener
+        arguments:
+            - @controller.helper
+            - @template
+            - @phpbb.messenger.model
+            - @user
+        tags:
+            - { name: event.listener }
+            
+    phpbb.messenger.model:
+        class: phpbb\messenger\models\main_model
+        arguments:
+            - @config
+            - @controller.helper
+            - @dbal.conn
+            - @user
+            - @phpbb.messenger.libs.database 
+
+    phpbb.messenger.libs.database:
+        class: phpbb\messenger\libs\database
+        arguments:
+            - @ext.manager
+            - %phpbb.messenger.database.messages%
