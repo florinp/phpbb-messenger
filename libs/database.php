@@ -16,12 +16,12 @@ class database extends \PDO
 		parent::__construct('sqlite:'.$database);
 		parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
-	
+	 
 	public function select($sql, $array = array(), $fetchMode = PDO::FETCH_ASSOC)
 	{
 		$sth = $this->prepare($sql);
 		foreach($array as $key => $value)
-		{
+		{ 
 			$sth->bindValue("$key", $value);
 		}
 		

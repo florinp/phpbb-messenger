@@ -14,7 +14,7 @@ class main_model
 	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $phpbb_db, \phpbb\user $user, \florinp\messenger\libs\database $db)
 	{
 		$this->config = $config;
-		$this->helper = $helper;
+		$this->helper = $helper; 
 		$this->phpbb_db = $phpbb_db; 
 		$this->user = $user;
 		$this->db = $db;

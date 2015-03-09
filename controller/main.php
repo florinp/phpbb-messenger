@@ -13,14 +13,15 @@ class main
 	protected $helper;
 	protected $template;
 	protected $user;
-	protected $model;
+	protected $model; 
 	protected $request;
 	
-	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\user $user, \florinp\messenger\models\main_model $model)
+	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\request\request $request ,\phpbb\user $user, \florinp\messenger\models\main_model $model)
 	{
 		$this->config = $config;
 		$this->helper = $helper;
 		$this->template = $template;
+		$this->request = $request;
 		$this->user = $user;
 		$this->model = $model;
 	}
@@ -36,16 +37,14 @@ class main
 	
 	public function publish()
 	{
-		global $request;
-		
 		/* AJAX check  */
-		$http_request = $request->server('HTTP_X_REQUESTED_WITH');
+		$http_request = $this->request->server('HTTP_X_REQUESTED_WITH');
 		if(empty($http_request) && strtolower($http_request) != 'xmlhttprequest') {
 			return new Response("The request is invalid", 500);
 		}
 		
-		$text = request_var('text', '');
-		$receiver_id = request_var('receiver_id', 0);
+		$text = $this->request->variable('text', '');
+		$receiver_id = $this->request->variable('receiver_id', 0);
 		$sender_id = $this->user->data['user_id'];
 		if($receiver_id != 0 && trim($text) != '')
 		{
@@ -76,15 +75,13 @@ class main
 	
 	public function load()
 	{
-		global $request;
-		
 		/* AJAX check  */
-		$http_request = $request->server('HTTP_X_REQUESTED_WITH');
+		$http_request = $this->request->server('HTTP_X_REQUESTED_WITH');
 		if(empty($http_request) && strtolower($http_request) != 'xmlhttprequest') {
 			return new Response("The request is invalid", 500);
 		}
 		
-		$friend_id = request_var('friend_id', 0);
+		$friend_id = $this->request->variable('friend_id', 0);
 		
 		if($friend_id > 0) {
 			$messages = $this->model->getMessages($friend_id);
@@ -95,15 +92,13 @@ class main
 	
 	public function updateMessages()
 	{
-		global $request;
-		
 		/* AJAX check  */
-		$http_request = $request->server('HTTP_X_REQUESTED_WITH');
+		$http_request = $this->request->server('HTTP_X_REQUESTED_WITH');
 		if(empty($http_request) && strtolower($http_request) != 'xmlhttprequest') {
 			return new Response("The request is invalid", 500);
 		}
 		
-		$friend_id = request_var('friend_id', 0);
+		$friend_id = $this->request->variable('friend_id', 0);
 		if($friend_id > 0)
 		{
 			$newVal = $this->model->updateMessagesStatus($friend_id);
@@ -114,15 +109,13 @@ class main
 	
 	public function checkForNewMessages()
 	{
-		global $request;
-		
 		/* AJAX check  */
-		$http_request = $request->server('HTTP_X_REQUESTED_WITH');
+		$http_request = $this->request->server('HTTP_X_REQUESTED_WITH');
 		if(empty($http_request) && strtolower($http_request) != 'xmlhttprequest') {
 			return new Response("The request is invalid", 500);
 		}
 		
-		$friend_id = request_var('friend_id', 0);
+		$friend_id = $this->request->variable('friend_id', 0);
 		if($friend_id > 0)
 		{
 			$messages = $this->model->getInboxFromId($friend_id);

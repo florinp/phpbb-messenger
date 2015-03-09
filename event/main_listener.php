@@ -13,7 +13,7 @@ class main_listener implements EventSubscriberInterface
 			'core.page_footer' => 'friends_list',
 			'core.page_header' => 'check_login'
 		);
-	}
+	} 
 	
 	/* @var \phpbb\controller\helper */
 	protected $helper;
