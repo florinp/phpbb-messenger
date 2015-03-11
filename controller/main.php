@@ -76,10 +76,10 @@ class main
 	public function load()
 	{
 		/* AJAX check  */
-		/*$http_request = $this->request->server('HTTP_X_REQUESTED_WITH');
+		$http_request = $this->request->server('HTTP_X_REQUESTED_WITH');
 		if(empty($http_request) && strtolower($http_request) != 'xmlhttprequest') {
 			return new Response("The request is invalid", 500);
-		}*/
+		}
 
 		$friend_id = $this->request->variable('friend_id', 0);
 
