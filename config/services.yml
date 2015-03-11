@@ -10,7 +10,7 @@ services:
             - @request
             - @user
             - @florinp.messenger.model
-    
+
     florinp.messenger.listener:
         class: florinp\messenger\event\main_listener
         arguments:
@@ -20,7 +20,7 @@ services:
             - @user
         tags:
             - { name: event.listener }
-            
+
     florinp.messenger.model:
         class: florinp\messenger\models\main_model
         arguments:
@@ -28,10 +28,7 @@ services:
             - @controller.helper
             - @dbal.conn
             - @user
-            - @florinp.messenger.libs.database 
+            - @florinp.messenger.libs.database
 
     florinp.messenger.libs.database:
         class: florinp\messenger\libs\database
-        arguments:
-            - @ext.manager
-            - %florinp.messenger.database.messages%

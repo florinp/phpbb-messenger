@@ -1,2 +1,2 @@
 parameters:
-    florinp.messenger.database.messages: messages.db
+    florinp.messenger.database.messages: messenger.db

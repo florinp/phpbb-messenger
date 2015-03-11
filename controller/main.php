@@ -8,14 +8,14 @@ use Symfony\Component\HttpFoundation\Request;
 
 class main
 {
-	
+
 	protected $config;
 	protected $helper;
 	protected $template;
 	protected $user;
-	protected $model; 
+	protected $model;
 	protected $request;
-	
+
 	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\request\request $request ,\phpbb\user $user, \florinp\messenger\models\main_model $model)
 	{
 		$this->config = $config;
@@ -25,16 +25,16 @@ class main
 		$this->user = $user;
 		$this->model = $model;
 	}
-	
+
 	public function handle()
 	{
 	}
-	
+
 	public function index()
 	{
-		
+
 	}
-	
+
 	public function publish()
 	{
 		/* AJAX check  */
@@ -42,7 +42,7 @@ class main
 		if(empty($http_request) && strtolower($http_request) != 'xmlhttprequest') {
 			return new Response("The request is invalid", 500);
 		}
-		
+
 		$text = $this->request->variable('text', '');
 		$receiver_id = $this->request->variable('receiver_id', 0);
 		$sender_id = $this->user->data['user_id'];
@@ -50,14 +50,14 @@ class main
 		{
 			$text = htmlspecialchars($text);
 			$text = str_replace(array("\n", "\r"), '', $text);
-			
+
 			$message = array(
 				'sender_id' => $sender_id,
 				'receiver_id' => $receiver_id,
 				'text' => $text,
-				'sentAt' => time() 
+				'sentAt' => time()
 			);
-			
+
 			if($id = $this->model->sendMessage($message))
 			{
 				$lastMessage = $this->model->getMessageById($id);
@@ -65,31 +65,31 @@ class main
 			} else {
 				$response = array(
 					'succes' => false,
-					'error' => 'An error has been ocurred!'	
+					'error' => 'An error has been ocurred!'
 				);
 			}
 		}
-		
+
 		return new JsonResponse($response, 200);
 	}
-	
+
 	public function load()
 	{
 		/* AJAX check  */
-		$http_request = $this->request->server('HTTP_X_REQUESTED_WITH');
+		/*$http_request = $this->request->server('HTTP_X_REQUESTED_WITH');
 		if(empty($http_request) && strtolower($http_request) != 'xmlhttprequest') {
 			return new Response("The request is invalid", 500);
-		}
-		
+		}*/
+
 		$friend_id = $this->request->variable('friend_id', 0);
-		
+
 		if($friend_id > 0) {
 			$messages = $this->model->getMessages($friend_id);
 			return new JsonResponse($messages, 200);
 		}
 		return new JsonResponse(array('success' => false, 'error' => 'The request is invalid'), 200);
 	}
-	
+
 	public function updateMessages()
 	{
 		/* AJAX check  */
@@ -97,7 +97,7 @@ class main
 		if(empty($http_request) && strtolower($http_request) != 'xmlhttprequest') {
 			return new Response("The request is invalid", 500);
 		}
-		
+
 		$friend_id = $this->request->variable('friend_id', 0);
 		if($friend_id > 0)
 		{
@@ -106,7 +106,7 @@ class main
 		}
 		return new JsonResponse(array('success' => false), 200);
 	}
-	
+
 	public function checkForNewMessages()
 	{
 		/* AJAX check  */
@@ -114,7 +114,7 @@ class main
 		if(empty($http_request) && strtolower($http_request) != 'xmlhttprequest') {
 			return new Response("The request is invalid", 500);
 		}
-		
+
 		$friend_id = $this->request->variable('friend_id', 0);
 		if($friend_id > 0)
 		{
@@ -123,5 +123,5 @@ class main
 		}
 		return new JsonResponse(array('success' => false), 200);
 	}
-	
+
 }

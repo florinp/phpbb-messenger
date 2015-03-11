@@ -12,12 +12,10 @@
 		"role": "Lead Developer"
 	}],
 	"require": {
-		"php": ">=5.3.3"
+		"php": ">=5.4.0"
 	},
 	"require-dev": {
-		"phpbb/epv": "dev-master",
-		"mpratt/relativetime": "~1.0",
-		"symfony/http-foundation": "~2.0" 
+		"phpbb/epv": "dev-master"
 	},
 	"extra": {
 		"display-name": "Messenger",
@@ -25,4 +23,4 @@
 			"phpbb/phpbb": ">=3.1.0-RC2,<3.2.*@dev"
 		}
 	}
-} 
+}
