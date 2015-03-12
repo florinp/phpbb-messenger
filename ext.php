@@ -25,7 +25,10 @@ class ext extends \phpbb\extension\base
   {
     global $phpbb_root_path;
     $database = $phpbb_root_path . 'store/messenger.db';
-    unlink($database);
+    if(is_file($database))
+    {
+      unlink($database);
+    }
     return true;
   }
 
