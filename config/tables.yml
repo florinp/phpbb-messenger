@@ -1,0 +1,3 @@
+parameters:
+  florinp.messenger.tables.friends_request: %core.table_prefix%messenger_friends_request
+  florinp.messenger.tables.user_friends: %core.table_prefix%messenger_user_friends

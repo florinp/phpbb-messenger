@@ -15,8 +15,9 @@ class main
 	protected $user;
 	protected $model;
 	protected $request;
+	protected $notification_manager;
 
-	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\request\request $request ,\phpbb\user $user, \florinp\messenger\models\main_model $model)
+	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\template\template $template, \phpbb\request\request $request ,\phpbb\user $user, \florinp\messenger\models\main_model $model, \phpbb\notification\manager $notification_manager)
 	{
 		$this->config = $config;
 		$this->helper = $helper;
@@ -24,6 +25,7 @@ class main
 		$this->request = $request;
 		$this->user = $user;
 		$this->model = $model;
+		$this->notification_manager = $notification_manager;
 	}
 
 	public function handle()
@@ -43,9 +45,11 @@ class main
 			return new Response("The request is invalid", 500);
 		}
 
-		$text = $this->request->variable('text', '');
+		$text = $this->request->variable('text', '', true);
 		$receiver_id = $this->request->variable('receiver_id', 0);
 		$sender_id = $this->user->data['user_id'];
+
+
 		if($receiver_id != 0 && trim($text) != '')
 		{
 			$text = htmlspecialchars($text);

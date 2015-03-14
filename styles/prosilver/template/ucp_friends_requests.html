@@ -1,0 +1,59 @@
+<!-- INCLUDE ucp_header.html -->
+
+<form id="ucp_friends_requests" method="post" action="{U_ACTION}">
+
+<h2>Friends requests</h2>
+<div class="panel">
+	<div class="inner">
+
+		<ul class="topiclist missing-column">
+			<li class="header">
+				<dl>
+					<dt>
+						<div class="list-inner">
+							From
+						</div>
+					</dt>
+					<dd class="moderation">
+						<span>
+							Status
+						</span>
+					</dd>
+					<dd class="mark">{L_MARK}</dd>
+				</dl>
+			</li>
+		</ul>
+		<ul class="topiclist cplist missing-column responsive-show-all">
+			<!-- BEGIN requests -->
+
+			<li class="row<!-- IF requests.row_count is odd --> bg1<!-- ELSE --> bg2<!-- ENDIF -->">
+				<dl>
+					<dt>
+						<div class="list-inner">
+							{requests.sender_username} <br />
+							<span>Sent at &raquo; {requests.time}</span>
+						</div>
+					</dt>
+					<dd class="moderation">
+						<span>
+							{requests.status}
+						</span>
+					</dd>
+					<dd class="mark">
+						<input type="checkbox" name="requests_id[]" value="{requests.request_id}" />
+					</dd>
+				</dl>
+			</li>
+
+			<!-- END requests -->
+		</ul>
+	</div>
+</div>
+<fieldset class="display-actions">
+	<button type="submit" class="button2" name="action" value="delete">Delete</button>
+	<button type="submit" class="button1" name="action" value="approve">Approve</button>
+</fieldset>
+
+</form>
+
+<!-- INCLUDE ucp_footer.html -->

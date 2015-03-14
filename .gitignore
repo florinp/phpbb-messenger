@@ -4,3 +4,5 @@
 .settings/*
 composer.lock
 vendor/*
+messenger.kdev4
+.kdev4/*

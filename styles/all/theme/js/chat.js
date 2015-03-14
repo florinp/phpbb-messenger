@@ -3,11 +3,11 @@ var refreshChatBoxesInterval = setInterval(refreshChatBoxes, 3000);
 var refreshInboxCount = setInterval(checkForNewMessages, 60000);
 
 $(function(){
-	
+
 	$('.chat_head').click(function(){
 		$('.chat_body').slideToggle('slow');
 	});
-	
+
 	$('.user').each(function(index){
 		$(this).click(function(){
 			if(($('.msg_box').length+1) >= 5) {
@@ -26,7 +26,7 @@ function generateBox(userId, username, right)
 {
 	if($("#chat_"+userId).length > 0) {
 		if($("#chat_"+userId+" .msg_wrap").css('display') == 'none') {
-			$("#chat_"+userId+" .msg_wrap").slideToggle('slow'); 
+			$("#chat_"+userId+" .msg_wrap").slideToggle('slow');
 		}
 	} else {
 		var box;
@@ -48,7 +48,7 @@ function generateBox(userId, username, right)
 }
 
 function sendMessage(e, $this) {
-	if(e.keyCode == 13 && e.shiftKey) {  
+	if(e.keyCode == 13 && e.shiftKey) {
 		var userId = $($this).parent().parent().parent().attr('id').split('_')[1];
 		$.post('./app.php/messenger/publish', {
 			text: $($this).val(),
@@ -61,7 +61,7 @@ function sendMessage(e, $this) {
 			addMessageInViewAfterAdd(data);
 			$($this).focus();
 		});
-		e.preventDefault(); 
+		e.preventDefault();
 	}
 }
 
@@ -86,11 +86,13 @@ function addMessageInViewAfterAdd(data)
 {
 	if(data.success == true)
 	{
-		clearInterval(refreshChatBoxesInterval);
 		var message = data.message;
 		$('<div class="msg msg_b" data-msg-id="'+message.id+'">'+message.text+'</div>').insertBefore("#chat_"+message.receiver_id+" .msg_body .msg_push");
 		$("#chat_"+message.receiver_id+" .msg_body").scrollTop($("#chat_"+message.receiver_id+" .msg_body")[0].scrollHeight);
-		refreshChatBoxesInterval = setInterval(refreshChatBoxes, 3000);
+		clearInterval(refreshChatBoxesInterval);
+		setTimeout(function(){
+			refreshChatBoxesInterval = setInterval(refreshChatBoxes, 3000);
+		}, 1500);
 	}
 }
 
@@ -123,11 +125,15 @@ function addNewMessageInView(userId, array)
 				return;
 			}
 			else
-			{	
+			{
 				if(value.type == 'inbox') className = 'msg_a';
 				else className = 'msg_b';
 				$('<div class="msg '+className+'" data-msg-id="'+value.id+'">'+value.text+'</div>').insertBefore("#chat_"+userId+" .msg_body .msg_push");
 				$("#chat_"+userId+" .msg_body").scrollTop($("#chat_"+userId+" .msg_body")[0].scrollHeight);
+				clearInterval(refreshChatBoxesInterval);
+				setTimeout(function(){
+					refreshChatBoxesInterval = setInterval(refreshChatBoxes, 3000);
+				}, 1500);
 			}
 		});
 	});
