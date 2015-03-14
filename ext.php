@@ -64,6 +64,7 @@ class ext extends \phpbb\extension\base
       unlink($database);
     }
     return parent::purge_step($old_state);
+
   }
 
 }
