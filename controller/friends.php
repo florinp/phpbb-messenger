@@ -44,7 +44,7 @@ class friends {
 				'request_id' => $request['request_id'],
 				'sender_username' => $this->user_loader->get_username($request['sender_id'], 'full'),
 				'status' => ($request['status'] == 1) ? 'approved' : 'waiting for approval',
-				'time' => date('d M Y', $request['time']),
+				'time' => date('d M Y H:i:s', $request['time']),
 				'row_count' => $i
 			));
 		}
@@ -76,11 +76,21 @@ class friends {
 			foreach($requests_id as $id)
 			{
 				$this->model->approve_friend_request($id);
+				$request_data = $this->model->get_friend_request($id);
+				$this->model->add_friend(array(
+					'user_id' => $request_data['user_id'],
+					'friend_id' => $request_data['sender_id']
+				));
 			}
 		}
 		else
 		{
 			$this->model->approve_friend_request($requests_id);
+			$request_data = $this->model->get_friend_request($requests_id);
+			$this->model->add_friend(array(
+				'user_id' => $request_data['user_id'],
+				'friend_id' => $request_data['sender_id']
+			));
 		}
 	}
 
@@ -108,8 +118,10 @@ class friends {
 					'florinp.messenger.notification.type.friend_request'
 			), $notification_data );
 
-			echo 'Success';
+			return true;
 		}
+
+		return false;
 	}
 
 	public function set_page_url($u_action)

@@ -1,8 +1,15 @@
 <!-- IF S_ENABLE_MESSENGER -->
 <div class="panel">
   <div class="inner">
-    <p>Send friend request</p>
-
+    <!-- IF U_CHECK_FRIEND -->
+      <p>Friend</p>
+    <!-- ELSEIF U_CHECK_REQUEST -->
+      <p>Friend request sent</p>
+      <a href="ucp.php?i=-florinp-messenger-ucp-ucp_friends_module&amp;mode=cancel_request&amp;user_id={U_USER_ID}" class="button1">Cancel request</a>
+    <!-- ELSE -->
+      <p>Send friend request</p>
+      <a href="ucp.php?i=-florinp-messenger-ucp-ucp_friends_module&amp;mode=add_friend&amp;user_id={U_USER_ID}" class="button1">Add friend</a>
+    <!-- ENDIF -->
   </div>
 </div>
 <!-- ENDIF -->

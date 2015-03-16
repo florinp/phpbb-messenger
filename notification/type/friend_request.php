@@ -56,7 +56,7 @@ class friend_request extends \phpbb\notification\type\base
     ), $options);
 
     $users = array($data['user_id']);
-    
+
     return $this->check_user_notification_options($users, $options);
   }
 
@@ -68,7 +68,7 @@ class friend_request extends \phpbb\notification\type\base
 
   public function get_url()
   {
-    return append_sid($this->phpbb_root_path . 'ucp.' . $this->php_ext, "i=florinp-messenger-ucp-ucp_friends_module&amp;action=requests");
+    return append_sid($this->phpbb_root_path . 'ucp.' . $this->php_ext, "i=-florinp-messenger-ucp-ucp_friends_module&amp;mode=requests");
   }
 
   public function get_avatar()

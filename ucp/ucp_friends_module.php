@@ -19,7 +19,11 @@ class ucp_friends_module
 
     switch($mode)
     {
-    	case 'requests';
+      case 'friends':
+        $this->tpl_name = 'friends';
+      break;
+
+      case 'requests':
 
         if($request->is_set_post('action'))
         {
@@ -55,6 +59,32 @@ class ucp_friends_module
     		$friends_controller->requests();
     		$this->tpl_name = 'ucp_friends_requests';
     	break;
+
+      case 'add_friend':
+        $user_id = $request->variable('user_id', 0);
+        if($user_id > 0)
+        {
+          if(confirm_box(true))
+          {
+            $user_id = $request->variable('user_id', 0);
+            $redirect_url = $request->variable('redirect_url', '');
+            if($friends_controller->send_request($user_id))
+            {
+              redirect($redirect_url);
+            }
+          }
+          else
+          {
+            $user_id = $request->variable('user_id', 0);
+            $redirect_url = $request->server('HTTP_REFERER');
+            confirm_box(false, 'Are you sure you want the user to be your friend?', build_hidden_fields(array(
+              'user_id' => $user_id,
+              'redirect_url' => $redirect_url,
+            )));
+          }
+        }
+      break;
+
     }
 
   }

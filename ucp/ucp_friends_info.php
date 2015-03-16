@@ -9,12 +9,20 @@ class ucp_friends_info
   {
     return array(
       'filename' => '\florinp\messenger\ucp\ucp_friends_module',
-      'title' => 'Friends',
+      'title' => 'Messenger Friends',
       'modes' => array(
+        'friends' => array(
+          'title' => 'Friends list',
+          'auth' => 'ext_florinp/messenger && acl_u_access_messenger'
+        ),
         'requests' => array(
           'title' => 'Requests',
-          'auth' => 'ext_florinp/messenger',
+          'auth' => 'ext_florinp/messenger && acl_u_access_messenger',
         ),
+        'add_friend' => array(
+          'title' => 'Add friend',
+          'auth' => 'ext_florinp/messenger && acl_u_access_messenger',
+        )
       )
     );
   }
