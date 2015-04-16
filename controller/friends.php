@@ -29,6 +29,30 @@ class friends {
 		$this->notification_manager = $notification_manager;
 	}
 
+	public function friends_list()
+	{
+		$friends = $this->model->getFriends();
+		$i = 0;
+		foreach($friends as $friend)
+		{
+			$i = $i + 1;
+			$user_loader = $this->user_loader->load_users(array(
+				$friend['user_id']
+			));
+			$this->template->assign_block_vars('friends', array(
+				'user_id' => $friend['user_id'],
+				'username' => $this->user_loader->get_username($friend['user_id'], 'full'),
+				'user_colour' => $friend['user_colour'],
+				'user_status' => ($friend['user_status'] == 1) ? 'online' : 'offline',
+				'row_count' => $i
+			));
+		}
+		
+		$this->template->assign_vars(array(
+			'U_ACTION' => $this->u_action,
+		));
+	}
+
 	public function requests()
 	{
 		$requests = $this->model->get_friends_requests();
@@ -121,6 +145,27 @@ class friends {
 			return true;
 		}
 
+		return false;
+	}
+	
+	public function remove_friend($user_id) {
+		
+		if(is_array($user_id))
+		{
+			foreach($user_id as $id)
+			{
+				$this->model->remove_friend($id);
+			}
+			return true;
+		}
+		else
+		{
+			if($user_id > 1)
+			{
+				$this->model->remove_friend($user_id);
+				return true;
+			}
+		}
 		return false;
 	}
 

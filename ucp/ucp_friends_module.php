@@ -20,7 +20,90 @@ class ucp_friends_module
     switch($mode)
     {
       case 'friends':
-        $this->tpl_name = 'friends';
+		
+		$action = $request->variable('action', '');
+		switch($action)
+		{
+			case 'add_friend':
+				$user_id = $request->variable('user_id', 0);
+				if($user_id > 0)
+				{
+				  if(confirm_box(true))
+				  {
+					$user_id = $request->variable('user_id', 0);
+					$redirect_url = $request->variable('redirect_url', '');
+					if($friends_controller->send_request($user_id))
+					{
+					  redirect($redirect_url);
+					}
+				  }
+				  else
+				  {
+					$user_id = $request->variable('user_id', 0);
+					$redirect_url = $request->server('HTTP_REFERER');
+					confirm_box(false, 'Are you sure you want the user to be your friend?', build_hidden_fields(array(
+					  'user_id' => $user_id,
+					  'redirect_url' => $redirect_url,
+					)));
+				  }
+				}
+			  break;
+		  case 'remove_friend':
+			$user_id = $request->variable('user_id', 0);
+			if($user_id > 0)
+			{
+				if(confirm_box(true))
+				{
+					$user_id = $request->variable('user_id', 0);
+					$redirect_url = $request->variable('redirect_url', '');
+					if($friends_controller->remove_friend($user_id))
+					{
+					  redirect($redirect_url);
+					}
+				}
+				else
+				{
+					$user_id = $request->variable('user_id', 0);
+					$redirect_url = $request->server('HTTP_REFERER');
+					confirm_box(false, 'Are you sure you want to remove the user from your friends list?', build_hidden_fields(array(
+					  'user_id' => $user_id,
+					  'redirect_url' => $redirect_url,
+					)));
+				}
+			}
+		  break;
+            default:
+                if($request->is_set_post('action'))
+                {
+                    $action = $request->variable('action', '');
+                    switch($action) 
+                    {
+                        case 'remove':
+                            if(confirm_box(true))
+                            {
+                                $user_id = $request->variable('user_id', array(0));
+                                $redirect_url = $request->variable('redirect_url', '');
+                                if($friends_controller->remove_friend($user_id))
+                                {
+                                  redirect($redirect_url);
+                                }
+                            }
+                            else
+                            {
+                                $user_id = $request->variable('user_id', array(0));
+                                $redirect_url = $request->server('HTTP_REFERER');
+                                confirm_box(false, 'Are you sure you want to remove the user from your friends list?', build_hidden_fields(array(
+                                  'user_id' => $user_id,
+                                  'redirect_url' => $redirect_url,
+                                )));
+                            }
+                        break;
+                    }
+                }
+                $friends_controller->friends_list();
+                $this->tpl_name = 'friends';
+            break;
+		}
       break;
 
       case 'requests':
@@ -59,31 +142,6 @@ class ucp_friends_module
     		$friends_controller->requests();
     		$this->tpl_name = 'ucp_friends_requests';
     	break;
-
-      case 'add_friend':
-        $user_id = $request->variable('user_id', 0);
-        if($user_id > 0)
-        {
-          if(confirm_box(true))
-          {
-            $user_id = $request->variable('user_id', 0);
-            $redirect_url = $request->variable('redirect_url', '');
-            if($friends_controller->send_request($user_id))
-            {
-              redirect($redirect_url);
-            }
-          }
-          else
-          {
-            $user_id = $request->variable('user_id', 0);
-            $redirect_url = $request->server('HTTP_REFERER');
-            confirm_box(false, 'Are you sure you want the user to be your friend?', build_hidden_fields(array(
-              'user_id' => $user_id,
-              'redirect_url' => $redirect_url,
-            )));
-          }
-        }
-      break;
 
     }
 

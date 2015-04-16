@@ -22,6 +22,10 @@ class ucp_friends_info
         'add_friend' => array(
           'title' => 'Add friend',
           'auth' => 'ext_florinp/messenger && acl_u_access_messenger',
+        ),
+        'remove_friend' => array(
+            'title' => 'Remove friend',
+            'auth' => 'ext_florinp/messenger && acl_u_access_messenger'
         )
       )
     );

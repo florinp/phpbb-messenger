@@ -40,12 +40,17 @@ class main_listener implements EventSubscriberInterface
 	public function friends_list()
 	{
 		$friends = $this->model->getFriends();
+		$friends_online = array_filter($friends, function($friend){
+			return $friend['user_status'] != 0;
+		});
+		$this->template->assign_var('S_COUNT_FRIENDS', count($friends_online));
 		foreach($friends as $friend)
 		{
 			$this->template->assign_block_vars('chat_friends', array(
 				'U_USERID' => $friend['user_id'],
 				'U_USERNAME' => $friend['username'],
 				'U_USERCOLOR' => $friend['user_colour'],
+				'U_STATUS' => $friend['user_status'],
 				'U_USERINBOX' => $friend['inbox']
 			));
 		}

@@ -71,12 +71,21 @@
 .user:hover{
 	background:#f8f8f8;
 	cursor:pointer;
-
 }
-.user:before{
-	content:'';
+.status-online:before {
+    content:'';
 	position:absolute;
 	background:#2ecc71;
+	height:10px;
+	width:10px;
+	left:10px;
+	top:15px;
+	border-radius:6px;
+}
+.status-offline:before {
+    content:'';
+	position:absolute;
+	background:#D51616;
 	height:10px;
 	width:10px;
 	left:10px;

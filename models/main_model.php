@@ -10,14 +10,18 @@ class main_model
 	protected $phpbb_db;
 	protected $user;
 	protected $db;
+    protected $friends_request_table;
+	protected $user_friends_table;
 
-	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $phpbb_db, \phpbb\user $user, \florinp\messenger\libs\database $db)
+	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $phpbb_db, \phpbb\user $user, \florinp\messenger\libs\database $db, $friends_request_table, $user_friends_table)
 	{
 		$this->config = $config;
 		$this->helper = $helper;
 		$this->phpbb_db = $phpbb_db;
 		$this->user = $user;
 		$this->db = $db;
+        $this->friends_request_table = $friends_request_table;
+        $this->user_friends_table = $user_friends_table;
 	}
 
 	/**
@@ -26,23 +30,30 @@ class main_model
 	 */
 	public function getFriends()
 	{
-		$sql = "SELECT *
-				FROM " . ZEBRA_TABLE ."
-				LEFT JOIN " . USERS_TABLE . " ON ".USERS_TABLE.".user_id = ".ZEBRA_TABLE.".zebra_id
-				WHERE ".ZEBRA_TABLE.".user_id = ". (int)$this->user->data['user_id'] ."
-					AND ".ZEBRA_TABLE.".friend = 1
-					AND ".ZEBRA_TABLE.".foe = 0
-			";
+		$sql = "
+            SELECT u.user_id, 
+                   u.username, 
+                   u.username_clean, 
+                   u.user_type, 
+                   u.user_colour, 
+                   s.session_id, 
+                   s.session_time
+            FROM ". $this->user_friends_table ."
+            LEFT JOIN ". USERS_TABLE ." AS u ON u.user_id = ". $this->user_friends_table .".friend_id
+            LEFT JOIN ". SESSIONS_TABLE ." AS s ON s.session_user_id = u.user_id
+            WHERE ". $this->user_friends_table .".user_id = ". (int)$this->user->data['user_id'] ."
+            GROUP BY u.user_id
+        ";
 		$result = $this->phpbb_db->sql_query($sql);
 
 		$friends = array();
 		while($row = $this->phpbb_db->sql_fetchrow($result))
 		{
-			if(!$this->checkFriend($row['user_id'])) continue;
 			$friends[] = array(
 				'user_id' => $row['user_id'],
-				'username' => $row['username'],
+				'username' => $row['username_clean'],
 				'user_colour' => $row['user_colour'],
+                'user_status' => ($row['session_time'] >= (time() - ($this->config['load_online_time'] * 60))) ? 1 : 0,
 				'inbox' => $this->getInboxFromId($row['user_id'])
 			);
 		}

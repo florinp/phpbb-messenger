@@ -44,6 +44,8 @@ services:
             - @dbal.conn
             - @user
             - @florinp.messenger.libs.database
+            - %florinp.messenger.tables.friends_request%
+            - %florinp.messenger.tables.user_friends%
 
     florinp.messenger.model.friends:
         class: florinp\messenger\models\friends_model

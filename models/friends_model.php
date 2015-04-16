@@ -19,6 +19,39 @@ class friends_model {
 		$this->user_friends_table = $user_friends_table;
 	}
 
+    public function getFriends()
+	{
+		$sql = "
+            SELECT u.user_id, 
+                   u.username, 
+                   u.username_clean, 
+                   u.user_type, 
+                   u.user_colour, 
+                   s.session_id, 
+                   s.session_time
+            FROM ". $this->user_friends_table ."
+            LEFT JOIN ". USERS_TABLE ." AS u ON u.user_id = ". $this->user_friends_table .".friend_id
+            LEFT JOIN ". SESSIONS_TABLE ." AS s ON s.session_user_id = u.user_id
+            WHERE ". $this->user_friends_table .".user_id = ". (int)$this->user->data['user_id'] ."
+            GROUP BY u.user_id
+        ";
+		$result = $this->db->sql_query($sql);
+
+		$friends = array();
+		while($row = $this->db->sql_fetchrow($result))
+		{
+			$friends[] = array(
+				'user_id' => $row['user_id'],
+				'username' => $row['username_clean'],
+				'user_colour' => $row['user_colour'],
+                'user_status' => ($row['session_time'] >= (time() - ($this->config['load_online_time'] * 60))) ? 1 : 0,
+			);
+		}
+		$this->db->sql_freeresult();
+
+		return $friends;
+	}
+
 	public function get_friends_requests()
 	{
 
@@ -32,7 +65,7 @@ class friends_model {
 					`time`
 			FROM ". $this->friends_request_table ."
 			WHERE `user_id` = ". (int)$this->user->data['user_id'] ."
-					## AND `status` = 0
+                    AND `status` = 0
 			ORDER BY `time` DESC
 		";
 
@@ -185,5 +218,14 @@ class friends_model {
 			return false;
 		}
 	}
+    
+    public function remove_friend($user_id)
+    {
+        $sql = "DELETE FROM ". $this->user_friends_table ." WHERE `user_id` = ". (int)$user_id ."";
+        $this->db->sql_query($sql);
+        
+        $sql = "DELETE FROM ". $this->user_friends_table ." WHERE `friend_id` = ". (int)$user_id ."";
+        $this->db->sql_query($sql);
+    }
 
 }
