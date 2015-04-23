@@ -44,6 +44,7 @@ services:
             - @dbal.conn
             - @user
             - @florinp.messenger.libs.database
+            - @florinp.messenger.libs.emojione
             - %florinp.messenger.tables.friends_request%
             - %florinp.messenger.tables.user_friends%
 
@@ -59,6 +60,9 @@ services:
 
     florinp.messenger.libs.database:
         class: florinp\messenger\libs\database
+    
+    florinp.messenger.libs.emojione:
+        class: florinp\messenger\libs\emojione
 
     florinp.messenger.notification.type.friend_request:
         class: florinp\messenger\notification\type\friend_request

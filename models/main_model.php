@@ -12,14 +12,16 @@ class main_model
 	protected $db;
     protected $friends_request_table;
 	protected $user_friends_table;
+    protected $emojione;
 
-	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $phpbb_db, \phpbb\user $user, \florinp\messenger\libs\database $db, $friends_request_table, $user_friends_table)
+	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $phpbb_db, \phpbb\user $user, \florinp\messenger\libs\database $db, \florinp\messenger\libs\emojione $emojione, $friends_request_table, $user_friends_table)
 	{
 		$this->config = $config;
 		$this->helper = $helper;
 		$this->phpbb_db = $phpbb_db;
 		$this->user = $user;
 		$this->db = $db;
+        $this->emojione = $emojione;
         $this->friends_request_table = $friends_request_table;
         $this->user_friends_table = $user_friends_table;
 	}
@@ -107,7 +109,7 @@ class main_model
 		$insert = array(
 			'sender_id' => $data['sender_id'],
 			'receiver_id' => $data['receiver_id'],
-			'text' => $data['text'],
+			'text' => $this->emojione->toImage($data['text']),
 			'newMsg' => 1,
 			'sentAt' => time()
 		);
@@ -158,7 +160,7 @@ class main_model
 			$item['id'] = $msg['id'];
 			$item['sender_id'] = $msg['sender_id'];
 			$item['receiver_id'] = $msg['receiver_id'];
-			$item['text'] = $msg['text'];
+			$item['text'] = $this->emojione->toImage($msg['text']);
 			$item['sentAt'] = $msg['sentAt'];
 			$item['type'] = 'sent';
 
@@ -171,7 +173,7 @@ class main_model
 			$item['id'] = $msg['id'];
 			$item['sender_id'] = $msg['sender_id'];
 			$item['receiver_id'] = $msg['receiver_id'];
-			$item['text'] = $msg['text'];
+			$item['text'] = $this->emojione->toImage($msg['text']);
 			$item['sentAt'] = $msg['sentAt'];
 			$item['type'] = 'inbox';
 

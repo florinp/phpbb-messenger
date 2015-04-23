@@ -1,6 +1,6 @@
 // refresh chat boxes
-var refreshChatBoxesInterval = setInterval(refreshChatBoxes, 3000);
-var refreshInboxCount = setInterval(checkForNewMessages, 60000);
+var refreshChatBoxesInterval = $.timer(3000, refreshChatBoxes);
+var refreshInboxCount = $.timer(60000, checkForNewMessages);
 
 $(function(){
 
@@ -37,18 +37,26 @@ function generateBox(userId, username, right)
 		loadMessagesOnBoxGenerate(userId);
 		box += '<div class="msg_push"></div>';
 		box += '</div>';
-		box += '<div class="msg_footer"><textarea class="msg_input" onkeypress="sendMessage(event, this)" rows="4" placeholder="Type here and press shift + enter to send the message"></textarea></div>';
+		box += '<div class="msg_footer"><textarea class="msg_input" onkeypress="sendMessage(event, this)" onkeyup="typing()" rows="4" placeholder="Type here and press shift + enter to send the message"></textarea></div>';
 		box += '</div>';
 		box += '<div>';
 		$('body').append(box);
 		updateMessagesStatus(userId);
 		// start chat boxes interval
-		refreshChatBoxesInterval = setInterval(refreshChatBoxes, 3000);
+		refreshChatBoxesInterval.reset(3000);
 	}
+}
+
+function typing() {
+    //refreshChatBoxesInterval.stop();
 }
 
 function sendMessage(e, $this) {
 	if(e.keyCode == 13 && e.shiftKey) {
+        refreshChatBoxesInterval.stop();
+		setTimeout(function(){
+			refreshChatBoxesInterval.reset(3000);
+		}, 1500);
 		var userId = $($this).parent().parent().parent().attr('id').split('_')[1];
 		$.post('./app.php/messenger/publish', {
 			text: $($this).val(),
@@ -89,11 +97,9 @@ function addMessageInViewAfterAdd(data)
 		var message = data.message;
 		$('<div class="msg msg_b" data-msg-id="'+message.id+'">'+message.text+'</div>').insertBefore("#chat_"+message.receiver_id+" .msg_body .msg_push");
 		$("#chat_"+message.receiver_id+" .msg_body").scrollTop($("#chat_"+message.receiver_id+" .msg_body")[0].scrollHeight);
-		clearInterval(refreshChatBoxesInterval);
-		setTimeout(function(){
-			refreshChatBoxesInterval = setInterval(refreshChatBoxes, 3000);
-		}, 1500);
 	}
+    
+    return false;
 }
 
 function refreshChatBoxes()
@@ -110,7 +116,7 @@ function refreshChatBoxes()
 			addNewMessageInView(userId, msg_ids);
 		});
 	} else {
-		clearInterval(refreshChatBoxesInterval);
+		refreshChatBoxesInterval.stop();
 	}
 }
 
@@ -130,10 +136,10 @@ function addNewMessageInView(userId, array)
 				else className = 'msg_b';
 				$('<div class="msg '+className+'" data-msg-id="'+value.id+'">'+value.text+'</div>').insertBefore("#chat_"+userId+" .msg_body .msg_push");
 				$("#chat_"+userId+" .msg_body").scrollTop($("#chat_"+userId+" .msg_body")[0].scrollHeight);
-				clearInterval(refreshChatBoxesInterval);
-				setTimeout(function(){
-					refreshChatBoxesInterval = setInterval(refreshChatBoxes, 3000);
-				}, 1500);
+				refreshChatBoxesInterval.stop();
+                setTimeout(function(){
+                    refreshChatBoxesInterval.reset(3000);
+                }, 1500);
 			}
 		});
 	});
