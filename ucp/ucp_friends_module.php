@@ -41,7 +41,7 @@ class ucp_friends_module
 				  {
 					$user_id = $request->variable('user_id', 0);
 					$redirect_url = $request->server('HTTP_REFERER');
-					confirm_box(false, 'Are you sure you want the user to be your friend?', build_hidden_fields(array(
+					confirm_box(false, $user->lang('CONFIRM_ADD_FRIEND'), build_hidden_fields(array(
 					  'user_id' => $user_id,
 					  'redirect_url' => $redirect_url,
 					)));
@@ -65,7 +65,7 @@ class ucp_friends_module
 				{
 					$user_id = $request->variable('user_id', 0);
 					$redirect_url = $request->server('HTTP_REFERER');
-					confirm_box(false, 'Are you sure you want to remove the user from your friends list?', build_hidden_fields(array(
+					confirm_box(false, $user->lang('CONFIRM_REMOVE_FRIEND'), build_hidden_fields(array(
 					  'user_id' => $user_id,
 					  'redirect_url' => $redirect_url,
 					)));
@@ -92,7 +92,7 @@ class ucp_friends_module
                             {
                                 $user_id = $request->variable('user_id', array(0));
                                 $redirect_url = $request->server('HTTP_REFERER');
-                                confirm_box(false, 'Are you sure you want to remove the user from your friends list?', build_hidden_fields(array(
+                                confirm_box(false, $user->lang('CONFIRM_REMOVE_FRIEND'), build_hidden_fields(array(
                                   'user_id' => $user_id,
                                   'redirect_url' => $redirect_url,
                                 )));
@@ -124,7 +124,7 @@ class ucp_friends_module
               else
               {
                 $requests_id = $request->variable('requests_id', array(0));
-                confirm_box(false, 'Are you sure you want to delete the requests?', build_hidden_fields(array(
+                confirm_box(false, $user->lang('CONFIRM_REMOVE_REQUESTS'), build_hidden_fields(array(
                   'requests_id' => $requests_id,
                   'action' => $action,
                   'mode' => $mode

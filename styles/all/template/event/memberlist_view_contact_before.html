@@ -2,14 +2,14 @@
 <div class="panel">
   <div class="inner">
     <!-- IF U_CHECK_FRIEND -->
-      <p>Friend</p>
-      <a href="ucp.php?i=-florinp-messenger-ucp-ucp_friends_module&amp;mode=friends&amp;action=remove_friend&amp;user_id={U_USER_ID}" class="button1">Remove from friends list</a>
+      <p>{L_FRIEND}</p>
+      <a href="ucp.php?i=-florinp-messenger-ucp-ucp_friends_module&amp;mode=friends&amp;action=remove_friend&amp;user_id={U_USER_ID}" class="button1">{L_BTN_REMOVE_FRIEND}</a>
     <!-- ELSEIF U_CHECK_REQUEST -->
-      <p>Friend request sent</p>
-      <a href="ucp.php?i=-florinp-messenger-ucp-ucp_friends_module&amp;mode=cancel_request&amp;user_id={U_USER_ID}" class="button1">Cancel request</a>
+      <p>{L_FRIEND_REQUEST_SENT}</p>
+      <a href="ucp.php?i=-florinp-messenger-ucp-ucp_friends_module&amp;mode=cancel_request&amp;user_id={U_USER_ID}" class="button1">{L_BTN_CANCEL_REQUEST}</a>
     <!-- ELSE -->
-      <p>Send friend request</p>
-      <a href="ucp.php?i=-florinp-messenger-ucp-ucp_friends_module&amp;mode=friends&amp;action=add_friend&amp;user_id={U_USER_ID}" class="button1">Add friend</a>
+      <p>{L_SEND_FRIEND_REQUEST}</p>
+      <a href="ucp.php?i=-florinp-messenger-ucp-ucp_friends_module&amp;mode=friends&amp;action=add_friend&amp;user_id={U_USER_ID}" class="button1">{L_BTN_ADD_FRIEND}</a>
     <!-- ENDIF -->
   </div>
 </div>

@@ -10,6 +10,7 @@ class main_listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
+            'core.user_setup' => 'load_language_on_setup',
 			'core.page_footer' => 'friends_list',
 			'core.page_header' => 'check_login',
 			'core.memberlist_view_profile' => 'check_friends'
@@ -54,6 +55,16 @@ class main_listener implements EventSubscriberInterface
 				'U_USERINBOX' => $friend['inbox']
 			));
 		}
+	}
+
+	public function load_language_on_setup($event)
+	{
+		$lang_set_ext = $event['lang_set_ext'];
+		$lang_set_ext[] = array(
+			'ext_name' => 'florinp/messenger',
+			'lang_set' => 'common',
+		);
+		$event['lang_set_ext'] = $lang_set_ext;
 	}
 
 	public function check_login()
