@@ -89,7 +89,7 @@ class friends_model {
 					`time`
 			FROM ". $this->friends_request_table ."
 			WHERE `request_id` = ". (int)$id ."
-					## AND `status` = 0
+                AND `status` = 0
 			ORDER BY `time` DESC
 			LIMIT 1
 		";
@@ -98,6 +98,26 @@ class friends_model {
 
 		return $row;
 	}
+    
+    public function get_request_by_sender_id($sender_id)
+    {
+        $sql = "
+            SELECT `request_id`,
+					`user_id`,
+					`sender_id`,
+					`status`,
+					`time`
+			FROM ". $this->friends_request_table ."
+			WHERE `sender_id` = ". (int)$sender_id ."
+                AND `status` = 0
+			ORDER BY `time` DESC
+			LIMIT 1 
+        ";
+        $result = $this->db->sql_query($sql);
+        $row = $this->db->sql_fetchrow($result);
+        
+        return $row;
+    }
 
 	public function insert_friends_request(array $data) {
 		$sql = "

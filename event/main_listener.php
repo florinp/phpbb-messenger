@@ -80,6 +80,8 @@ class main_listener implements EventSubscriberInterface
 	public function check_friends($event)
 	{
 		$user_id = $event['member']['user_id'];
+        $sender_id = $this->user->data['user_id'];
+        $request = $this->friends_model->get_request_by_sender_id($sender_id);
 		$check_friend = $this->friends_model->check_friend(array(
 			'user_id' => $this->user->data['user_id'],
 			'friend_id' => $user_id,
@@ -91,7 +93,8 @@ class main_listener implements EventSubscriberInterface
 		$this->template->assign_vars(array(
 			'U_USER_ID' => $user_id,
 			'U_CHECK_FRIEND' => $check_friend,
-			'U_CHECK_REQUEST' => $check_request
+			'U_CHECK_REQUEST' => $check_request,
+            'U_REQUEST_ID' => $request['request_id']
 		));
 	}
 }

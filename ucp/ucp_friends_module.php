@@ -138,6 +138,33 @@ class ucp_friends_module
             break;
           }
         }
+        
+        $action = $request->variable('action', '');
+        switch($action)
+        {
+            case 'cancel_request':
+                if(confirm_box(true))
+              {
+                $request_id = $request->variable('request_id', 0);
+                $redirect_url = $request->variable('redirect_url', '');
+                if($friends_controller->delete_request($request_id))
+                {
+                    redirect($redirect_url);
+                }
+              }
+              else
+              {
+                $request_id = $request->variable('request_id', 0);
+                $redirect_url = $request->server('HTTP_REFERER');
+                confirm_box(false, $user->lang('CONFIRM_REMOVE_REQUESTS'), build_hidden_fields(array(
+                  'request_id' => $request_id,
+                  'action' => $action,
+                  'mode' => $mode,
+                  'redirect_url' => $redirect_url,
+                )));
+              }
+            break;
+        }
 
     		$friends_controller->requests();
     		$this->tpl_name = 'ucp_friends_requests';

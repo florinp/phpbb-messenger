@@ -54,9 +54,6 @@ function typing() {
 function sendMessage(e, $this) {
 	if(e.keyCode == 13 && e.shiftKey) {
         refreshChatBoxesInterval.stop();
-		setTimeout(function(){
-			refreshChatBoxesInterval.reset(3000);
-		}, 1500);
 		var userId = $($this).parent().parent().parent().attr('id').split('_')[1];
 		$.post('./app.php/messenger/publish', {
 			text: $($this).val(),
@@ -67,6 +64,7 @@ function sendMessage(e, $this) {
 			}
 			$($this).val('');
 			addMessageInViewAfterAdd(data);
+            refreshChatBoxesInterval.reset(3000);
 			$($this).focus();
 		});
 		e.preventDefault();
