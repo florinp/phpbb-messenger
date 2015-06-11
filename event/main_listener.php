@@ -70,7 +70,7 @@ class main_listener implements EventSubscriberInterface
 	public function check_login()
 	{
 		$s_enable_messenger = 0;
-		if($this->user->data['user_id'] != 1)
+		if(in_array($this->user->data['user_type'], array(USER_NORMAL, USER_FOUNDER)))
 		{
 			$s_enable_messenger = 1;
 		}
