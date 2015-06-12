@@ -54,5 +54,7 @@ $lang = array_merge($lang, array(
     'DELETE' => 'Supprimer',
     'APPROVE' => 'Accepter',
     'FRIEND_REQUEST_SENT' => 'Demande d’ami envoyée',
+	'FRIEND_REQUEST_CONFIRM' => 'This user has sent you a friend request', // to be translated
+    'BTN_CONFIRM_FRIEND' => 'Confirm the request', // to be translated
     'SEND_FRIEND_REQUEST' => 'Envoyer la demande d’ami',
 ));

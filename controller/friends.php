@@ -99,12 +99,15 @@ class friends {
 		{
 			foreach($requests_id as $id)
 			{
-				$this->model->approve_friend_request($id);
 				$request_data = $this->model->get_friend_request($id);
-				$this->model->add_friend(array(
-					'user_id' => $request_data['user_id'],
-					'friend_id' => $request_data['sender_id']
-				));
+				if($request_data)
+				{
+					$this->model->add_friend(array(
+						'user_id' => $request_data['user_id'],
+						'friend_id' => $request_data['sender_id']
+					));	
+				}
+				
 			}
 		}
 		else
@@ -135,8 +138,6 @@ class friends {
 					'sender_username' => $this->user->data ['username'],
 					'user_id' => $user_id
 			);
-
-			//print_r($notification_data); exit;
 
 			$this->notification_manager->add_notifications ( array (
 					'florinp.messenger.notification.type.friend_request'
