@@ -1,21 +1,24 @@
 <!-- IF S_ENABLE_MESSENGER -->
-  <!-- IF U_CHECK_WIDGET -->
-    <div class="panel">
-      <div class="inner">
-        <!-- IF U_CHECK_FRIEND -->
-          <p>{L_FRIEND}</p>
-          <a href="ucp.php?i=-florinp-messenger-ucp-ucp_friends_module&amp;mode=friends&amp;action=remove_friend&amp;user_id={U_USER_ID}" class="button1">{L_BTN_REMOVE_FRIEND}</a>
-        <!-- ELSEIF U_CHECK_REQUEST -->
-          <p>{L_FRIEND_REQUEST_SENT}</p>
-          <a href="ucp.php?i=-florinp-messenger-ucp-ucp_friends_module&amp;mode=requests&amp;action=cancel_request&amp;request_id={U_REQUEST_ID}" class="button1">{L_BTN_CANCEL_REQUEST}</a>
-        <!-- ELSEIF U_CHECK_REQUEST_CONFIRM -->
-          <p>{L_FRIEND_REQUEST_CONFIRM}</p>
-          <a href="ucp.php?i=-florinp-messenger-ucp-ucp_friends_module&mode=requests" class="button1">{L_BTN_CONFIRM_FRIEND}</a>
-        <!-- ELSE -->
-          <p>{L_SEND_FRIEND_REQUEST}</p>
-          <a href="ucp.php?i=-florinp-messenger-ucp-ucp_friends_module&amp;mode=friends&amp;action=add_friend&amp;user_id={U_USER_ID}" class="button1">{L_BTN_ADD_FRIEND}</a>
-        <!-- ENDIF -->
-      </div>
-    </div>
-  <!-- ENDIF -->
+	<!-- IF U_CHECK_WIDGET -->
+	<div class="panel">
+		<div class="inner">
+			<h3>{L_CHAT_BOX}</h3>
+			<dl class="details">
+			<!-- IF U_CHECK_FRIEND -->
+				<dt>{L_FRIEND}{L_COLON}&nbsp;</dt>
+				<dd><a href="ucp.php?i=-florinp-messenger-ucp-ucp_friends_module&amp;mode=friends&amp;action=remove_friend&amp;user_id={U_USER_ID}" class="button2">{L_BTN_REMOVE_FRIEND}</a></dd>
+			<!-- ELSEIF U_CHECK_REQUEST -->
+				<dt>{L_FRIEND_REQUEST_SENT}{L_COLON}&nbsp;</dt>
+				<dd><a href="ucp.php?i=-florinp-messenger-ucp-ucp_friends_module&amp;mode=requests&amp;action=cancel_request&amp;request_id={U_REQUEST_ID}" class="button2">{L_BTN_CANCEL_REQUEST}</a></dd>
+			<!-- ELSEIF U_CHECK_REQUEST_CONFIRM -->
+				<dt>{L_FRIEND_REQUEST_CONFIRM}{L_COLON}&nbsp;</dt>
+				<dd><a href="ucp.php?i=-florinp-messenger-ucp-ucp_friends_module&amp;mode=requests" class="button2">{L_BTN_CONFIRM_FRIEND}</a></dd>
+			<!-- ELSE -->
+				<dt>{L_SEND_FRIEND_REQUEST}{L_COLON}&nbsp;</dt>
+				<dd><a href="ucp.php?i=-florinp-messenger-ucp-ucp_friends_module&amp;mode=friends&amp;action=add_friend&amp;user_id={U_USER_ID}" class="button2">{L_BTN_ADD_FRIEND}</a></dd>
+			<!-- ENDIF -->
+			</dl>
+		</div>
+	</div>
+	<!-- ENDIF -->
 <!-- ENDIF -->

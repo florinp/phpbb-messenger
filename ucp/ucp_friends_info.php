@@ -9,14 +9,14 @@ class ucp_friends_info
   {
     return array(
       'filename' => '\florinp\messenger\ucp\ucp_friends_module',
-      'title' => 'Messenger Friends',
+      'title' => 'CHAT_BOX',
       'modes' => array(
         'friends' => array(
-          'title' => 'Friends list',
+          'title' => 'FRIENDS_LIST',
           'auth' => 'ext_florinp/messenger && acl_u_access_messenger'
         ),
         'requests' => array(
-          'title' => 'Requests',
+          'title' => 'FRIENDS_REQUESTS',
           'auth' => 'ext_florinp/messenger && acl_u_access_messenger',
         ),
       )
