@@ -70,7 +70,7 @@ class main_listener implements EventSubscriberInterface
 	public function check_login()
 	{
 		$s_enable_messenger = 0;
-		if($this->user->data['user_id'] != 1)
+		if(in_array($this->user->data['user_type'], array(USER_NORMAL, USER_FOUNDER)))
 		{
 			$s_enable_messenger = 1;
 		}
@@ -90,10 +90,18 @@ class main_listener implements EventSubscriberInterface
 			'user_id' => $user_id,
 			'sender_id' => $this->user->data['user_id']
 		));
+		$check_request_confirm = $this->friends_model->check_request(array(
+			'user_id' => $this->user->data['user_id'],
+			'sender_id' => $user_id
+		));
+		$check_widget = true;
+		if($user_id == $this->user->data['user_id']) $check_widget = false;
 		$this->template->assign_vars(array(
 			'U_USER_ID' => $user_id,
 			'U_CHECK_FRIEND' => $check_friend,
 			'U_CHECK_REQUEST' => $check_request,
+			'U_CHECK_REQUEST_CONFIRM' => $check_request_confirm,
+			'U_CHECK_WIDGET' => $check_widget,
             'U_REQUEST_ID' => $request['request_id']
 		));
 	}

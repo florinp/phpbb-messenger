@@ -95,8 +95,15 @@ class friends_model {
 		";
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
-
-		return $row;
+		
+		if($this->approve_friend_request($id))
+		{		
+			return $row;
+		}
+		else
+		{
+			return false;
+		}
 	}
     
     public function get_request_by_sender_id($sender_id)
@@ -116,7 +123,7 @@ class friends_model {
         $result = $this->db->sql_query($sql);
         $row = $this->db->sql_fetchrow($result);
         
-        return $row;
+		return $row;
     }
 
 	public function insert_friends_request(array $data) {

@@ -20,6 +20,8 @@ $lang = array_merge($lang, array(
     'DELETE' => 'Sterge',
     'APPROVE' => 'Aproba',
     'FRIEND_REQUEST_SENT' => 'Cerere trimisa',
+    'FRIEND_REQUEST_CONFIRM' => 'Acest utilizator ti-a trimis o cerere de prietenie',
+    'BTN_CONFIRM_FRIEND' => 'Confirma cererea',
     'SEND_FRIEND_REQUEST' => 'Trimite cerere'
 ));
 

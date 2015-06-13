@@ -6,3 +6,5 @@ composer.lock
 vendor/*
 messenger.kdev4
 .kdev4/*
+Messenger.komodoproject
+.komodotools
