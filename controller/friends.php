@@ -67,7 +67,7 @@ class friends {
 			$this->template->assign_block_vars('requests', array(
 				'request_id' => $request['request_id'],
 				'sender_username' => $this->user_loader->get_username($request['sender_id'], 'full'),
-				'status' => ($request['status'] == 1) ? 'approved' : 'waiting for approval',
+				'status' => ($request['status'] == 1) ? ($this->user->lang['APPROVED']) : ($this->user->lang['WAITING_FOR_APPROVAL']),
 				'time' => date('d M Y H:i:s', $request['time']),
 				'row_count' => $i
 			));

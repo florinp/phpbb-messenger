@@ -1,6 +1,6 @@
 <!-- IF S_ENABLE_MESSENGER -->
 <div class="chat_box">
-	<div class="chat_head">Chat Box ({S_COUNT_FRIENDS})</div>
+	<div class="chat_head">{L_CHAT_BOX} ({S_COUNT_FRIENDS})</div>
 	<div class="chat_body">
 		<!-- BEGIN chat_friends -->
 			<div class="user <!-- IF chat_friends.U_STATUS -->status-online<!-- ELSE -->status-offline<!-- ENDIF -->" data-userid="{chat_friends.U_USERID}" data-username="{chat_friends.U_USERNAME}"><span id="username" style="color: #{chat_friends.U_USERCOLOR}">{chat_friends.U_USERNAME}</span> <span id="messenger_new_messages_count" class="inbox">{chat_friends.U_USERINBOX}</span></div>

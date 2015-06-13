@@ -11,12 +11,12 @@ class m3_ucp_friends_module extends \phpbb\db\migration\migration
             array('module.add', array(
                     'ucp',
                     '',
-                    'Messenger Friends',
+                    'CHAT_BOX',
                 )
             ),
             array('module.add', array(
                     'ucp',
-                    'Messenger Friends',
+                    'CHAT_BOX',
                     array(
                         'module_basename'   => '\florinp\messenger\ucp\ucp_friends_module',
                         'module_class' => 'ucp_friends_module',
@@ -32,7 +32,7 @@ class m3_ucp_friends_module extends \phpbb\db\migration\migration
         return array(
             array('module.remove', array(
                     'ucp',
-                    'Messenger Friends',
+                    'CHAT_BOX',
                     array(
                         'module_basename'   => '\florinp\messenger\ucp\ucp_friends_module',
                         'module_class' => 'ucp_friends_module',
@@ -43,7 +43,7 @@ class m3_ucp_friends_module extends \phpbb\db\migration\migration
             array('module.remove', array(
                     'ucp',
                     '',
-                    'Messenger Friends'
+                    'CHAT_BOX'
                 )
             ),
         );
