@@ -37,7 +37,7 @@ function generateBox(userId, username, right)
 		loadMessagesOnBoxGenerate(userId);
 		box += '<div class="msg_push"></div>';
 		box += '</div>';
-		box += '<div class="msg_footer"><textarea class="msg_input" onkeypress="sendMessage(event, this)" onkeyup="typing()" rows="4" placeholder="Type here and press shift + enter to send the message"></textarea></div>';
+		box += '<div class="msg_footer"><textarea class="msg_input" onkeypress="sendMessage(event, this)" onkeyup="typing()" rows="4" placeholder="' + chat_lang.CHAT_BOX_MESSAGE + '"></textarea></div>';
 		box += '</div>';
 		box += '<div>';
 		$('body').append(box);

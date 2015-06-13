@@ -1,8 +1,8 @@
 (function($){
     
     jQuery.timer = function(interval, callback, options) {
-        var options = jQuery.extend({ reset: 500 }, options);
-        var interval = interval || options.reset;
+        options = jQuery.extend({ reset: 500 }, options);
+        interval = interval || options.reset;
         
         if(!callback) return false;
         
@@ -25,7 +25,7 @@
                 if(self.id) {
                     clearInterval(self.id);
                 }
-                var time = time || options.reset;
+                time = time || options.reset;
                 this.id = setInterval($.proxy(this.internalCallback, this), time);
                 this.state = 1;
                 return true;
