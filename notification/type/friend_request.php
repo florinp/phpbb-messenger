@@ -63,7 +63,7 @@ class friend_request extends \phpbb\notification\type\base
   public function get_title()
   {
     $user_id = $this->user_loader->load_user_by_username($this->get_data('sender_username'));
-    return 'Friend request from: '.$this->user_loader->get_username($user_id, 'no_profile');
+    return $this->user->lang('FRIEND_REQUEST_FROM') .$this->user_loader->get_username($user_id, 'no_profile');
   }
 
   public function get_url()

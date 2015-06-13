@@ -56,6 +56,7 @@ $lang = array_merge($lang, array(
 	'FRIENDS_LIST'	=> 'Liste d’amis',
 	'FRIENDS_REQUESTS'	=> 'Demandes d’amis',
 	'FRIEND_REQUEST_CONFIRM'	=> 'Cet utilisateur vous a envoyé une demande d’ami.',
+	'FRIEND_REQUEST_FROM'	=> 'Demande d’ami envoyée par ',
 	'FRIEND_REQUEST_SENT'	=> 'Demande d’ami envoyée',
 	'SEND_FRIEND_REQUEST'	=> 'Envoyer la demande d’ami',
 	'WAITING_FOR_APPROVAL'	=> 'En attente d’acceptation',
