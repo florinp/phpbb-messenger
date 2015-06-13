@@ -1,8 +1,11 @@
 // refresh chat boxes
 var refreshChatBoxesInterval = $.timer(3000, refreshChatBoxes);
 var refreshInboxCount = $.timer(60000, checkForNewMessages);
+var url = window.location.href;
 
 $(function(){
+
+	url = url.replace(/(app.php)(\/\w+)?/g, "");
 
 	$('.chat_head').click(function(){
 		$('.chat_body').slideToggle('slow');
@@ -55,7 +58,7 @@ function sendMessage(e, $this) {
 	if(e.keyCode == 13 && e.shiftKey) {
         refreshChatBoxesInterval.stop();
 		var userId = $($this).parent().parent().parent().attr('id').split('_')[1];
-		$.post('./app.php/messenger/publish', {
+		$.post(url + 'app.php/messenger/publish', {
 			text: $($this).val(),
 			receiver_id: userId
 		}, function(data){
@@ -76,7 +79,7 @@ function loadMessagesOnBoxGenerate(userId)
 	$("#chat_"+userId+" .msg_body").empty();
 	$("#chat_"+userId+" .msg_body").html('<div class="msg_push"></div>');
 	var box = '';
-	$.getJSON('./app.php/messenger/load', {
+	$.getJSON(url + 'app.php/messenger/load', {
 		friend_id: userId
 	}, function(data){
 		$.each(data, function(index, value){
@@ -120,7 +123,7 @@ function refreshChatBoxes()
 
 function addNewMessageInView(userId, array)
 {
-	$.getJSON('./app.php/messenger/load', {
+	$.getJSON(url + 'app.php/messenger/load', {
 		friend_id: userId
 	}, function(data){
 		$.each(data, function(index, value){
@@ -145,7 +148,7 @@ function addNewMessageInView(userId, array)
 
 function updateMessagesStatus(userId)
 {
-	$.getJSON('./app.php/messenger/update_messages', {
+	$.getJSON(url + 'app.php/messenger/update_messages', {
 		friend_id: userId
 	}, function(data){
 		if(data.success == true) {
@@ -159,7 +162,7 @@ function checkForNewMessages()
 	$('.user').each(function(index){
 		var userId = $(this).data('userid');
 		var elem = $(this).find("#messenger_new_messages_count");
-		$.getJSON('./app.php/messenger/check_new_messages', {
+		$.getJSON(url + 'app.php/messenger/check_new_messages', {
 			friend_id: userId
 		}, function(data){
 			if(data.success == true) {
