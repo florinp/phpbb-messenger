@@ -55,6 +55,7 @@ $lang = array_merge($lang, array(
 	'FRIENDS_LIST'	=> 'Lista prieteni',
 	'FRIENDS_REQUESTS'	=> 'Cereri',
 	'FRIEND_REQUEST_CONFIRM'	=> 'Acest utilizator ti-a trimis o cerere de prietenie',
+	'FRIEND_REQUEST_FROM'	=> 'Friend request from ', // to be translated
 	'FRIEND_REQUEST_SENT'	=> 'Cerere trimisa',
 	'SEND_FRIEND_REQUEST'	=> 'Trimite cerere',
 	'WAITING_FOR_APPROVAL'	=> 'Waiting for approval', // to be translated

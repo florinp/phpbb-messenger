@@ -55,6 +55,7 @@ $lang = array_merge($lang, array(
 	'FRIENDS_LIST'	=> 'Friends list',
 	'FRIENDS_REQUESTS'	=> 'Friends requests',
 	'FRIEND_REQUEST_CONFIRM'	=> 'This user has sent you a friend request',
+	'FRIEND_REQUEST_FROM'	=> 'Friend request from ',
 	'FRIEND_REQUEST_SENT'	=> 'Friend request sent',
 	'SEND_FRIEND_REQUEST'	=> 'Send friend request',
 	'WAITING_FOR_APPROVAL'	=> 'Waiting for approval',
