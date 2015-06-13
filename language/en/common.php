@@ -38,26 +38,24 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'APPROVE'	=> 'Approve',
 	'APPROVED'	=> 'Approved',
 	'BTN_ADD_FRIEND'	=> 'Add friend',
 	'BTN_CANCEL_REQUEST'	=> 'Cancel request',
 	'BTN_CONFIRM_FRIEND'	=> 'Confirm the request',
 	'BTN_REMOVE_FRIEND'	=> 'Remove from friends list',
 	'CHAT_BOX'	=> 'Chat Box',
+	'CHAT_BOX_APPROVE'	=> 'Approve',
 	'CHAT_BOX_MESSAGE'	=> 'Type here and press shift + enter to send the message',
+	'CHAT_BOX_SENT_AT'	=> 'Sent at',
+	'CHAT_BOX_STATUS'	=> 'Status',
 	'CONFIRM_ADD_FRIEND'	=> 'Are you sure you want the user to be your friend?',
 	'CONFIRM_REMOVE_FRIEND'	=> 'Are you sure you want to remove the user from your friends list?',
 	'CONFIRM_REMOVE_REQUESTS'	=> 'Are you sure you want to delete the requests?',
-	'DELETE'	=> 'Delete',
 	'FRIEND'	=> 'Friend',
 	'FRIENDS_LIST'	=> 'Friends list',
 	'FRIENDS_REQUESTS'	=> 'Friends requests',
 	'FRIEND_REQUEST_CONFIRM'	=> 'This user has sent you a friend request',
 	'FRIEND_REQUEST_SENT'	=> 'Friend request sent',
-	'FROM'	=> 'From',
-	'SEND_FRIEND_REQUEST'	=> 'Send friend request'
-	'SENT_AT'	=> 'Sent at',
-	'STATUS'	=> 'Status',
+	'SEND_FRIEND_REQUEST'	=> 'Send friend request',
 	'WAITING_FOR_APPROVAL'	=> 'Waiting for approval',
 ));

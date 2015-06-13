@@ -38,26 +38,24 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'APPROVE'	=> 'Aproba',
 	'APPROVED'	=> 'Approved', // to be translated
 	'BTN_ADD_FRIEND'	=> 'Adauga prieten',
 	'BTN_CANCEL_REQUEST'	=> 'Anulare cerere',
 	'BTN_CONFIRM_FRIEND'	=> 'Confirma cererea',
 	'BTN_REMOVE_FRIEND'	=> 'Elimină din lista de prieteni',
 	'CHAT_BOX'	=> 'Chat Box', // to be translated
+	'CHAT_BOX_APPROVE'	=> 'Aproba',
 	'CHAT_BOX_MESSAGE'	=> 'Type here and press shift + enter to send the message', // to be translated
+	'CHAT_BOX_SENT_AT'	=> 'Trimis la',
+	'CHAT_BOX_STATUS'	=> 'Status',
 	'CONFIRM_ADD_FRIEND'	=> 'Sunteți sigur că doriți ca utilizatorul să fie prietenul tău?',
 	'CONFIRM_REMOVE_FRIEND'	=> 'Doriți să eliminați utilizatorul din lista de prieteni?',
 	'CONFIRM_REMOVE_REQUESTS'	=> 'Sunteți sigur că doriți să ștergeți cererile?',
-	'DELETE'	=> 'Sterge',
 	'FRIEND'	=> 'Prieten',
 	'FRIENDS_LIST'	=> 'Lista prieteni',
 	'FRIENDS_REQUESTS'	=> 'Cereri',
 	'FRIEND_REQUEST_CONFIRM'	=> 'Acest utilizator ti-a trimis o cerere de prietenie',
 	'FRIEND_REQUEST_SENT'	=> 'Cerere trimisa',
-	'FROM'	=> 'De la',
-	'SEND_FRIEND_REQUEST'	=> 'Trimite cerere'
-	'SENT_AT'	=> 'Trimis la',
-	'STATUS'	=> 'Status',
+	'SEND_FRIEND_REQUEST'	=> 'Trimite cerere',
 	'WAITING_FOR_APPROVAL'	=> 'Waiting for approval', // to be translated
 ));
