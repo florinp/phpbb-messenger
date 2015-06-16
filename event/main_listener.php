@@ -3,6 +3,7 @@
 namespace florinp\messenger\event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Routing\RequestContext;
 
 class main_listener implements EventSubscriberInterface
 {
@@ -28,18 +29,32 @@ class main_listener implements EventSubscriberInterface
 	protected $friends_model;
 
 	protected $user;
+	
+	protected $symfony_request;
 
-	public function __construct(\phpbb\controller\helper $helper, \phpbb\template\template $template, \florinp\messenger\models\main_model $model, \florinp\messenger\models\friends_model $friends_model, \phpbb\user $user)
+	public function __construct(\phpbb\controller\helper $helper, \phpbb\template\template $template, \florinp\messenger\models\main_model $model, \florinp\messenger\models\friends_model $friends_model, \phpbb\user $user, \phpbb\symfony_request $symfony_request)
 	{
 		$this->helper = $helper;
 		$this->template = $template;
 		$this->model = $model;
 		$this->friends_model = $friends_model;
 		$this->user = $user;
+		$this->symfony_request = $symfony_request;
 	}
 
 	public function friends_list()
 	{
+		$context = new RequestContext();
+		$context->fromRequest($this->symfony_request);
+		$baseUrl = generate_board_url(true) . $context->getBaseUrl();
+		
+		$scriptName = $this->symfony_request->getScriptName();
+		$scriptName = substr($scriptName, -1, 1) == '/' ? '' : utf8_basename($scriptName);
+		
+		if($scriptName != '') {
+			$baseUrl = str_replace('/'.$scriptName, '', $baseUrl);
+		}
+		
 		$friends = $this->model->getFriends();
 		$friends_online = array_filter($friends, function($friend){
 			return $friend['user_status'] != 0;
@@ -52,9 +67,12 @@ class main_listener implements EventSubscriberInterface
 				'U_USERNAME' => $friend['username'],
 				'U_USERCOLOR' => $friend['user_colour'],
 				'U_STATUS' => $friend['user_status'],
-				'U_USERINBOX' => $friend['inbox']
+				'U_USERINBOX' => $friend['inbox'],
 			));
 		}
+		$this->template->assign_vars(array(
+			'BASE_URL' => $baseUrl								   
+		));
 	}
 
 	public function load_language_on_setup($event)
@@ -102,7 +120,7 @@ class main_listener implements EventSubscriberInterface
 			'U_CHECK_REQUEST' => $check_request,
 			'U_CHECK_REQUEST_CONFIRM' => $check_request_confirm,
 			'U_CHECK_WIDGET' => $check_widget,
-            'U_REQUEST_ID' => $request['request_id']
+            'U_REQUEST_ID' => $request['request_id'],
 		));
 	}
 }

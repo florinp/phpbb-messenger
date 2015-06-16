@@ -33,6 +33,7 @@ services:
             - @florinp.messenger.model
             - @florinp.messenger.model.friends
             - @user
+            - @symfony_request
         tags:
             - { name: event.listener }
 
