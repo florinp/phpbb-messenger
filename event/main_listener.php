@@ -97,6 +97,17 @@ class main_listener implements EventSubscriberInterface
 
 	public function check_friends($event)
 	{
+		$context = new RequestContext();
+		$context->fromRequest($this->symfony_request);
+		$baseUrl = generate_board_url(true) . $context->getBaseUrl();
+		
+		$scriptName = $this->symfony_request->getScriptName();
+		$scriptName = substr($scriptName, -1, 1) == '/' ? '' : utf8_basename($scriptName);
+		
+		if($scriptName != '') {
+			$baseUrl = str_replace('/'.$scriptName, '', $baseUrl);
+		}
+		
 		$user_id = $event['member']['user_id'];
         $sender_id = $this->user->data['user_id'];
         $request = $this->friends_model->get_request_by_sender_id($sender_id);
@@ -121,6 +132,7 @@ class main_listener implements EventSubscriberInterface
 			'U_CHECK_REQUEST_CONFIRM' => $check_request_confirm,
 			'U_CHECK_WIDGET' => $check_widget,
             'U_REQUEST_ID' => $request['request_id'],
+			'BASE_URL' => $baseUrl
 		));
 	}
 }

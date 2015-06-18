@@ -31,7 +31,7 @@ function generateBox(userId, username, right)
 		}
 	} else {
 		var box;
-		box = '<div id="chat_'+userId+'" class="msg_box" style="right: '+right+'px;">';
+		box = '<div id="chat_'+userId+'" class="msg_box" style="right: ' + right + 'px;">';
 		box += '<div class="msg_head" onclick="minimizeChatBox(this);">'+username+' <div class="close" onclick="closeChatBox(this)">x</div></div>';
 		box += '<div class="msg_wrap">';
 		box += '<div class="msg_body">';
@@ -179,6 +179,12 @@ function minimizeChatBox($this) {
 function closeChatBox($this) {
 	var msg_box = $($this).parent().parent();
 	$(msg_box).remove();
+	if ($(".msg_box").length > 0) {
+		$(".msg_box").each(function(index) {
+			var no = index + 1;
+			$(this).css("right", no*290 + "px");	
+		});
+	}
 }
 
 function parseURL(url) {
