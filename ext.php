@@ -2,6 +2,8 @@
 
 namespace florinp\messenger;
 
+// Test
+
 class ext extends \phpbb\extension\base
 {
 
