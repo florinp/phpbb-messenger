@@ -53,7 +53,7 @@ function typing() {
 }
 
 function sendMessage(e, $this) {
-	if(e.keyCode == 13 && e.shiftKey) {
+	if(e.keyCode == 13) {
         refreshChatBoxesInterval.stop();
 		var userId = $($this).parent().parent().parent().attr('id').split('_')[1];
 		$.post(url + '/app.php/messenger/publish', {
