@@ -128,4 +128,25 @@ class main
 		return new JsonResponse(array('success' => false), 200);
 	}
 
+	public function getFriends()
+	{
+		/* AJAX check  */
+		// $http_request = $this->request->server('HTTP_X_REQUESTED_WITH');
+		// if(empty($http_request) && strtolower($http_request) != 'xmlhttprequest') {
+		// 	return new Response("The request is invalid", 500);
+		// }
+
+		$friends = $this->model->getFriends();
+		$friends_online = array_filter($friends, function($friend){
+			return $friend['user_status'] != 0;
+		});
+
+		$response = array(
+			'friends_online' => count($friends_online),
+			'friends_list' => $friends
+		);
+
+		return new JsonResponse($response, 200);
+	}
+
 }
