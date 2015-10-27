@@ -1,15 +1,4 @@
-<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
-<script>
-    /**
-     * @TODO: Review this code and find a better improvement
-     * Edit this variables only if you needed
-     **/
-    var chat_lang = {
-        CHAT_BOX_MESSAGE: "{L_CHAT_BOX_MESSAGE}"    
-    };
-    var chat_options = {
-        baseUrl: "{BASE_URL}"    
-    };
-</script>
-<!-- INCLUDEJS @florinp_messenger/js/jquery.timer.js -->
+<!-- IF S_ENABLE_MESSENGER -->
+<section id="chat"></section>
 <!-- INCLUDEJS @florinp_messenger/js/chat.js -->
+<!-- ENDIF -->

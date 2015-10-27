@@ -9,7 +9,7 @@
 	height:400px;
 	padding:5px 0px;
 	overflow-y: auto;
-	display: none;
+	display: block;
 }
 
 .chat_head,.msg_head{
@@ -43,25 +43,30 @@
 	position: relative;
 }
 .msg_input{
-	width:100%;
-	height: 50px;
-	border: 1px solid white;
-	border-top:1px solid #DDDDDD;
-	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
-	box-sizing: border-box;
-	margin-bottom: 5px;
+	border: 0;
+  display: block;
+  margin: 0;
+  min-height: 16px;
+  outline: none;
+  padding: 0;
+  resize: none;
+  width: 100%;
 }
 
 .close{
 	float:right;
 	cursor:pointer;
+	width: 45px;
+	height: 25px;
+	text-align: center;
+	position: relative;
+	left: 15px;
 }
 .minimize{
 	float:right;
 	cursor:pointer;
 	padding-right:5px;
-	
+
 }
 
 .user{
@@ -154,4 +159,115 @@
     height: 10px;
     padding: 5px;
     width: 10px;
+}
+
+.msg_footer:before {
+	background-color: #fff;
+	border-color: #b2b2b2;
+	border-style: solid;
+	border-width: 0 1px;
+	bottom: -1px;
+	content: '';
+	height: 1px;
+	margin-left: -1px;
+	position: absolute;
+	width: 63%;
+}
+
+.msg_footer:after {
+	background-color: rgba(0, 0, 0, .1);
+	content: '';
+	height: 1px;
+	position: absolute;
+	top: -1px;
+	width: 100%;
+}
+
+.msg_input_holder {
+	padding: 10px 8px 6px;
+	border-top: 1px solid #c9d0da;
+	cursor: text;
+	max-height: 77px;
+	min-height: 16px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	position: relative;
+}
+
+.msg_input_options {
+	bottom: 1px;
+	position: absolute;
+	right: 0;
+	width: 100%;
+}
+.msg_input_options .option {
+	height: 25px;
+	font-size: 20px;
+	padding: 10px;
+	float: left;
+}
+.msg_input_options .option a {
+	color: #B5B5B5;
+}
+.msg_input_options .option a:hover {
+	color: #989898;
+}
+
+.upload-zone {
+	background: white;
+  height: 200px;
+  font-size: 12px;
+  padding: 15px;
+  overflow: auto;
+  overflow-x: hidden;
+  position: relative;
+	display: none;
+}
+.upload-zone div {
+	text-align: center;
+	position: relative;
+	top: 50%;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.smiley_tooltip:before {
+	display: block;
+	position: absolute;
+	content: '';
+	width: 7px;
+	height: 7px;
+	right: 14px;
+	bottom: -5px;
+	background: inherit;
+	border-bottom: inherit;
+	border-right: inherit;
+	-ms-transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+
+.smiley_tooltip {
+	display: none;
+	position: absolute;
+	width: 200px;
+	background: #fff;
+	border: 1px solid #d5d5d5;
+	padding: 12px 10px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	bottom: 80%;
+	right: 213px;
+	z-index: 100;
+	margin-bottom: 10px;
+	box-shadow: 0 1px 2px rgba(0,0,0,0, .06);
+	cursor: default;
+}
+
+.smiley_tooltip .emoticon {
+	display: inline-block;
+	padding: 5px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	margin-left: 0px;
 }

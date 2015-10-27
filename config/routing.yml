@@ -1,11 +1,11 @@
 florinp_messenger_index:
     path: /messenger
     defaults: { _controller: florinp.messenger.controller:index }
-    
+
 florinp_messenger_publish:
     path: /messenger/publish
     defaults: { _controller: florinp.messenger.controller:publish }
-    
+
 florinp_messenger_load:
     path: /messenger/load
     defaults: { _controller: florinp.messenger.controller:load }
@@ -13,7 +13,23 @@ florinp_messenger_load:
 florinp_messenger_update_messages:
     path: /messenger/update_messages
     defaults: { _controller: florinp.messenger.controller:updateMessages }
-    
+
 florinp_messenger_check_new_messages:
     path: /messenger/check_new_messages
     defaults: { _controller: florinp.messenger.controller:checkForNewMessages }
+
+florinp_messenger_get_friends:
+    path: /messenger/get_friends
+    defaults: { _controller: florinp.messenger.controller:getFriends }
+
+florinp_messenger_send_file:
+    path: /messenger/send_file
+    defaults: { _controller: florinp.messenger.controller:sendFile }
+
+florinp_messenger_get_file:
+    path: /messenger/file/{id}
+    defaults: { _controller: florinp.messenger.controller:getFile }
+
+florinp_messenger_get_emoticons:
+    path: /messenger/emoticons
+    defaults: { _controller: florinp.messenger.controller:getEmoticons }
