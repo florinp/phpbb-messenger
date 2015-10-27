@@ -21,3 +21,15 @@ florinp_messenger_check_new_messages:
 florinp_messenger_get_friends:
     path: /messenger/get_friends
     defaults: { _controller: florinp.messenger.controller:getFriends }
+
+florinp_messenger_send_file:
+    path: /messenger/send_file
+    defaults: { _controller: florinp.messenger.controller:sendFile }
+
+florinp_messenger_get_file:
+    path: /messenger/file/{id}
+    defaults: { _controller: florinp.messenger.controller:getFile }
+
+florinp_messenger_get_emoticons:
+    path: /messenger/emoticons
+    defaults: { _controller: florinp.messenger.controller:getEmoticons }

@@ -8,6 +8,7 @@ class ext extends \phpbb\extension\base
 
   public function enable_step($old_state)
   {
+    global $phpbb_root_path;
 
     switch($old_state)
     {
@@ -22,7 +23,25 @@ class ext extends \phpbb\extension\base
             `newMsg` INTEGER DEFAULT 0,
             `sentAt` INTEGER NOT NULL
           );
+          CREATE TABLE IF NOT EXISTS files (
+            `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+            `sender_id` INTEGER NOT NULL,
+            `receiver_id` INTEGER NOT NULL,
+            `fileName` VARCHAR(255) NOT NULL,
+            `file` VARCHAR(255) NOT NULL,
+            `type` VARCHAR(255) NOT NULL,
+            `sentAt` INTEGER NOT NULL
+          );
         ");
+
+        $messengerDir = $phpbb_root_path . 'store/messenger';
+        if(!is_dir($messengerDir)) {
+          mkdir($messengerDir, 0777);
+          $filesDir = $messengerDir . '/files';
+          if(!is_dir($filesDir)) {
+            mkdir($filesDir, 0777);
+          }
+        }
         return 'notifications';
       break;
 
@@ -64,6 +83,19 @@ class ext extends \phpbb\extension\base
     if(is_file($database)) {
       unlink($database);
     }
+
+    $messengerDir = $phpbb_root_path . 'store/messenger';
+    if(is_dir($messengerDir)) {
+      $objects = scandir($messengerDir);
+      foreach($objects as $object) {
+        if($object != '.' && $object != '..') {
+          if (filetype($messengerDir."/".$object) == "dir") rmdir($messengerDir."/".$object); else unlink($messengerDir."/".$object);
+        }
+      }
+      reset($objects);
+      rmdir($messengerDir);
+    }
+
     return parent::purge_step($old_state);
 
   }

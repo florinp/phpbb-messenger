@@ -33,12 +33,12 @@ class main_model
 	public function getFriends()
 	{
 		$sql = "
-            SELECT u.user_id, 
-                   u.username, 
-                   u.username_clean, 
-                   u.user_type, 
-                   u.user_colour, 
-                   s.session_id, 
+            SELECT u.user_id,
+                   u.username,
+                   u.username_clean,
+                   u.user_type,
+                   u.user_colour,
+                   s.session_id,
                    s.session_time
             FROM ". $this->user_friends_table ."
             LEFT JOIN ". USERS_TABLE ." AS u ON u.user_id = ". $this->user_friends_table .".friend_id
@@ -120,6 +120,23 @@ class main_model
 			return false;
 	}
 
+	public function sendFile($data)
+	{
+		$insert = array(
+			'sender_id' => $data['sender_id'],
+			'receiver_id' => $data['receiver_id'],
+			'fileName' => $data['fileName'],
+			'file' => $data['file'],
+			'type' => $data['type'],
+			'sentAt' => time()
+		);
+
+		if($this->db->insert('files', $insert))
+			return $this->db->lastInsertId();
+		else
+			return false;
+	}
+
 	public function getMessageById($id)
 	{
 		$sql = "
@@ -135,6 +152,21 @@ class main_model
 		return $message[0];
 	}
 
+	public function getFileById($id)
+	{
+		$sql = "
+			SELECT *
+			FROM `files`
+			WHERE `id` = :id
+			LIMIT 1
+		";
+		$file = $this->db->select($sql, array(
+			':id' => $id
+		));
+
+		return $file[0];
+	}
+
 	public function getMessages($friend_id)
 	{
 		// get the sent messages
@@ -144,11 +176,26 @@ class main_model
 					AND `receiver_id` = :receiver_id
 				ORDER BY `sentAt` ASC
 		";
+		$sqlFiles = "SELECT *
+			FROM `files`
+			WHERE `sender_id` = :sender_id
+				AND `receiver_id` = :receiver_id
+			ORDER BY `sentAt` ASC
+		";
 		$sentMessages = $this->db->select($sql, array(
 			':sender_id' => $this->user->data['user_id'],
 			':receiver_id'=> $friend_id
 		));
 		$getInbox = $this->db->select($sql, array(
+			':sender_id' => $friend_id,
+			':receiver_id' => $this->user->data['user_id']
+		));
+
+		$sentFiles = $this->db->select($sqlFiles, array(
+			':sender_id' => $this->user->data['user_id'],
+			':receiver_id'=> $friend_id
+		));
+		$getFiles = $this->db->select($sqlFiles, array(
 			':sender_id' => $friend_id,
 			':receiver_id' => $this->user->data['user_id']
 		));
@@ -175,6 +222,32 @@ class main_model
 			$item['receiver_id'] = $msg['receiver_id'];
 			$item['text'] = $this->emojione->toImage($msg['text']);
 			$item['sentAt'] = $msg['sentAt'];
+			$item['type'] = 'inbox';
+
+			$inbox[] = $item;
+		}
+
+		foreach($sentFiles as $file) {
+			$item = array();
+			$item['id'] = 'f_'.$file['id'];
+			$item['sender_id'] = $file['sender_id'];
+			$item['receiver_id'] = $file['receiver_id'];
+			$item['fileName'] = $file['fileName'];
+			$item['file'] = $file['file'];
+			$item['sentAt'] = $file['sentAt'];
+			$item['type'] = 'sent';
+
+			$sent[] = $item;
+		}
+
+		foreach($getFiles as $file) {
+			$item = array();
+			$item['id'] = 'f_'.$file['id'];
+			$item['sender_id'] = $file['sender_id'];
+			$item['receiver_id'] = $file['receiver_id'];
+			$item['fileName'] = $file['fileName'];
+			$item['file'] = $file['file'];
+			$item['sentAt'] = $file['sentAt'];
 			$item['type'] = 'inbox';
 
 			$inbox[] = $item;

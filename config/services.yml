@@ -12,6 +12,7 @@ services:
             - @user
             - @florinp.messenger.model
             - @notification_manager
+            - @florinp.messenger.libs.emojione
 
     florinp.messenger.friends.controller:
         class: florinp\messenger\controller\friends
@@ -61,7 +62,7 @@ services:
 
     florinp.messenger.libs.database:
         class: florinp\messenger\libs\database
-    
+
     florinp.messenger.libs.emojione:
         class: florinp\messenger\libs\emojione
 
