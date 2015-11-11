@@ -1,6 +1,6 @@
 language: php
 
-sudo: required
+sudo: required 
 
 matrix:
   include:
