@@ -10,9 +10,9 @@ class main_model
 	protected $phpbb_db;
 	protected $user;
 	protected $db;
-    protected $friends_request_table;
+	protected $friends_request_table;
 	protected $user_friends_table;
-    protected $emojione;
+	protected $emojione;
 
 	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $phpbb_db, \phpbb\user $user, \florinp\messenger\libs\database $db, \florinp\messenger\libs\emojione $emojione, $friends_request_table, $user_friends_table)
 	{
@@ -21,9 +21,9 @@ class main_model
 		$this->phpbb_db = $phpbb_db;
 		$this->user = $user;
 		$this->db = $db;
-        $this->emojione = $emojione;
-        $this->friends_request_table = $friends_request_table;
-        $this->user_friends_table = $user_friends_table;
+		$this->emojione = $emojione;
+		$this->friends_request_table = $friends_request_table;
+		$this->user_friends_table = $user_friends_table;
 	}
 
 	/**
@@ -40,22 +40,22 @@ class main_model
                    u.user_colour,
                    s.session_id,
                    s.session_time
-            FROM ". $this->user_friends_table ."
-            LEFT JOIN ". USERS_TABLE ." AS u ON u.user_id = ". $this->user_friends_table .".friend_id
-            LEFT JOIN ". SESSIONS_TABLE ." AS s ON s.session_user_id = u.user_id
-            WHERE ". $this->user_friends_table .".user_id = ". (int)$this->user->data['user_id'] ."
+            FROM ". $this->user_friends_table."
+            LEFT JOIN ". USERS_TABLE." AS u ON u.user_id = ".$this->user_friends_table.".friend_id
+            LEFT JOIN ". SESSIONS_TABLE." AS s ON s.session_user_id = u.user_id
+            WHERE ". $this->user_friends_table.".user_id = ".(int)$this->user->data['user_id']."
             GROUP BY u.user_id
         ";
 		$result = $this->phpbb_db->sql_query($sql);
 
 		$friends = array();
-		while($row = $this->phpbb_db->sql_fetchrow($result))
+		while ($row = $this->phpbb_db->sql_fetchrow($result))
 		{
 			$friends[] = array(
 				'user_id' => $row['user_id'],
 				'username' => $row['username_clean'],
 				'user_colour' => $row['user_colour'],
-                'user_status' => ($row['session_time'] >= (time() - ($this->config['load_online_time'] * 60))) ? 1 : 0,
+				'user_status' => ($row['session_time'] >= (time() - ($this->config['load_online_time'] * 60))) ? 1 : 0,
 				'inbox' => $this->getInboxFromId($row['user_id'])
 			);
 		}
@@ -71,9 +71,9 @@ class main_model
 	{
 		$sql = "
 			SELECT COUNT(zebra_id) as friend_count
-			FROM ". ZEBRA_TABLE ."
-			WHERE user_id = ". (int)$friend_id ."
-				AND zebra_id = ". (int)$this->user->data['user_id'] ."
+			FROM ". ZEBRA_TABLE."
+			WHERE user_id = ". (int)$friend_id."
+				AND zebra_id = ". (int)$this->user->data['user_id']."
 				AND friend = 1
 				AND foe = 0
 		";
@@ -81,7 +81,7 @@ class main_model
 		$friend_count = (int)$this->phpbb_db->sql_fetchfield('friend_count');
 		$this->phpbb_db->sql_freeresult($result);
 
-		if($friend_count > 0) {
+		if ($friend_count > 0) {
 			return true;
 		} else {
 			return false;
@@ -114,7 +114,7 @@ class main_model
 			'sentAt' => time()
 		);
 
-		if($this->db->insert('messages', $insert))
+		if ($this->db->insert('messages', $insert))
 			return $this->db->lastInsertId();
 		else
 			return false;
@@ -131,7 +131,7 @@ class main_model
 			'sentAt' => time()
 		);
 
-		if($this->db->insert('files', $insert))
+		if ($this->db->insert('files', $insert))
 			return $this->db->lastInsertId();
 		else
 			return false;
@@ -201,7 +201,7 @@ class main_model
 		));
 
 		$sent = array();
-		foreach($sentMessages as $msg)
+		foreach ($sentMessages as $msg)
 		{
 			$item = array();
 			$item['id'] = $msg['id'];
@@ -214,7 +214,7 @@ class main_model
 			$sent[] = $item;
 		}
 		$inbox = array();
-		foreach($getInbox as $msg)
+		foreach ($getInbox as $msg)
 		{
 			$item = array();
 			$item['id'] = $msg['id'];
@@ -227,7 +227,7 @@ class main_model
 			$inbox[] = $item;
 		}
 
-		foreach($sentFiles as $file) {
+		foreach ($sentFiles as $file) {
 			$item = array();
 			$item['id'] = 'f_'.$file['id'];
 			$item['sender_id'] = $file['sender_id'];
@@ -240,7 +240,7 @@ class main_model
 			$sent[] = $item;
 		}
 
-		foreach($getFiles as $file) {
+		foreach ($getFiles as $file) {
 			$item = array();
 			$item['id'] = 'f_'.$file['id'];
 			$item['sender_id'] = $file['sender_id'];
@@ -260,7 +260,7 @@ class main_model
 		});
 
 		$sorted_messages = array();
-		foreach($unsorted_messages as $msg)
+		foreach ($unsorted_messages as $msg)
 		{
 			$sorted_messages[] = $msg;
 		}

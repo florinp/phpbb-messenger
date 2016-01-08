@@ -11,7 +11,7 @@ class main_listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-            'core.user_setup' => 'load_language_on_setup',
+			'core.user_setup' => 'load_language_on_setup',
 			'core.page_footer' => 'friends_list',
 			'core.page_header' => 'check_login',
 			'core.memberlist_view_profile' => 'check_friends'
@@ -46,21 +46,21 @@ class main_listener implements EventSubscriberInterface
 	{
 		$context = new RequestContext();
 		$context->fromRequest($this->symfony_request);
-		$baseUrl = generate_board_url(true) . $context->getBaseUrl();
+		$baseUrl = generate_board_url(true).$context->getBaseUrl();
 		
 		$scriptName = $this->symfony_request->getScriptName();
 		$scriptName = substr($scriptName, -1, 1) == '/' ? '' : utf8_basename($scriptName);
 		
-		if($scriptName != '') {
+		if ($scriptName != '') {
 			$baseUrl = str_replace('/'.$scriptName, '', $baseUrl);
 		}
 		
 		$friends = $this->model->getFriends();
-		$friends_online = array_filter($friends, function($friend){
+		$friends_online = array_filter($friends, function($friend) {
 			return $friend['user_status'] != 0;
 		});
 		$this->template->assign_var('S_COUNT_FRIENDS', count($friends_online));
-		foreach($friends as $friend)
+		foreach ($friends as $friend)
 		{
 			$this->template->assign_block_vars('chat_friends', array(
 				'U_USERID' => $friend['user_id'],
@@ -88,7 +88,7 @@ class main_listener implements EventSubscriberInterface
 	public function check_login()
 	{
 		$s_enable_messenger = 0;
-		if(in_array($this->user->data['user_type'], array(USER_NORMAL, USER_FOUNDER)))
+		if (in_array($this->user->data['user_type'], array(USER_NORMAL, USER_FOUNDER)))
 		{
 			$s_enable_messenger = 1;
 		}
@@ -99,18 +99,18 @@ class main_listener implements EventSubscriberInterface
 	{
 		$context = new RequestContext();
 		$context->fromRequest($this->symfony_request);
-		$baseUrl = generate_board_url(true) . $context->getBaseUrl();
+		$baseUrl = generate_board_url(true).$context->getBaseUrl();
 		
 		$scriptName = $this->symfony_request->getScriptName();
 		$scriptName = substr($scriptName, -1, 1) == '/' ? '' : utf8_basename($scriptName);
 		
-		if($scriptName != '') {
+		if ($scriptName != '') {
 			$baseUrl = str_replace('/'.$scriptName, '', $baseUrl);
 		}
 		
 		$user_id = $event['member']['user_id'];
-        $sender_id = $this->user->data['user_id'];
-        $request = $this->friends_model->get_request_by_sender_id($sender_id);
+		$sender_id = $this->user->data['user_id'];
+		$request = $this->friends_model->get_request_by_sender_id($sender_id);
 		$check_friend = $this->friends_model->check_friend(array(
 			'user_id' => $this->user->data['user_id'],
 			'friend_id' => $user_id,
@@ -124,14 +124,14 @@ class main_listener implements EventSubscriberInterface
 			'sender_id' => $user_id
 		));
 		$check_widget = true;
-		if($user_id == $this->user->data['user_id']) $check_widget = false;
+		if ($user_id == $this->user->data['user_id']) $check_widget = false;
 		$this->template->assign_vars(array(
 			'U_USER_ID' => $user_id,
 			'U_CHECK_FRIEND' => $check_friend,
 			'U_CHECK_REQUEST' => $check_request,
 			'U_CHECK_REQUEST_CONFIRM' => $check_request_confirm,
 			'U_CHECK_WIDGET' => $check_widget,
-            'U_REQUEST_ID' => $request['request_id'],
+			'U_REQUEST_ID' => $request['request_id'],
 			'BASE_URL' => $baseUrl
 		));
 	}

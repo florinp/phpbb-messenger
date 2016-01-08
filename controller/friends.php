@@ -2,10 +2,6 @@
 
 namespace florinp\messenger\controller;
 
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-
 class friends {
 
 	protected $config;
@@ -33,7 +29,7 @@ class friends {
 	{
 		$friends = $this->model->getFriends();
 		$i = 0;
-		foreach($friends as $friend)
+		foreach ($friends as $friend)
 		{
 			$i = $i + 1;
 			$user_loader = $this->user_loader->load_users(array(
@@ -57,7 +53,7 @@ class friends {
 	{
 		$requests = $this->model->get_friends_requests();
 		$i = 0;
-		foreach($requests as $request)
+		foreach ($requests as $request)
 		{
 			$i = $i + 1;
 			$user_loader = $this->user_loader->load_users(array(
@@ -80,14 +76,13 @@ class friends {
 
 	public function delete_request($requests_id)
 	{
-		if(is_array($requests_id))
+		if (is_array($requests_id))
 		{
-			foreach($requests_id as $id)
+			foreach ($requests_id as $id)
 			{
 				$this->model->delete_friend_request($id);
 			}
-		}
-		else
+		} else
 		{
 			$this->model->delete_friend_request($requests_id);
 		}
@@ -95,12 +90,12 @@ class friends {
 
 	public function approve_request($requests_id)
 	{
-		if(is_array($requests_id))
+		if (is_array($requests_id))
 		{
-			foreach($requests_id as $id)
+			foreach ($requests_id as $id)
 			{
 				$request_data = $this->model->get_friend_request($id);
-				if($request_data)
+				if ($request_data)
 				{
 					$this->model->add_friend(array(
 						'user_id' => $request_data['user_id'],
@@ -109,8 +104,7 @@ class friends {
 				}
 				
 			}
-		}
-		else
+		} else
 		{
 			$this->model->approve_friend_request($requests_id);
 			$request_data = $this->model->get_friend_request($requests_id);
@@ -122,26 +116,26 @@ class friends {
 	}
 
 	public function send_request($user_id) {
-		$user_id = ( int ) $user_id;
+		$user_id = (int)$user_id;
 		$sender_id = $this->user->data ['user_id'];
 
-		$insert = array (
+		$insert = array(
 				'user_id' => $user_id,
 				'sender_id' => $sender_id
 		);
 
-		if ($request_id = $this->model->insert_friends_request ( $insert )) {
+		if ($request_id = $this->model->insert_friends_request($insert)) {
 
-			$notification_data = array (
+			$notification_data = array(
 					'request_id' => $request_id,
 					'sender_id' => $sender_id,
 					'sender_username' => $this->user->data ['username'],
 					'user_id' => $user_id
 			);
 
-			$this->notification_manager->add_notifications ( array (
+			$this->notification_manager->add_notifications(array(
 					'florinp.messenger.notification.type.friend_request'
-			), $notification_data );
+			), $notification_data);
 
 			return true;
 		}
@@ -151,17 +145,16 @@ class friends {
 	
 	public function remove_friend($user_id) {
 		
-		if(is_array($user_id))
+		if (is_array($user_id))
 		{
-			foreach($user_id as $id)
+			foreach ($user_id as $id)
 			{
 				$this->model->remove_friend($id);
 			}
 			return true;
-		}
-		else
+		} else
 		{
-			if($user_id > 1)
+			if ($user_id > 1)
 			{
 				$this->model->remove_friend($user_id);
 				return true;

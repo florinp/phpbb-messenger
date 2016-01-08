@@ -9,7 +9,7 @@ class m1_initial_scheme extends \phpbb\db\migration\migration
 	{
 		return array(
 			'add_tables' => array(
-				$this->table_prefix . 'messenger_friends_request' => array(
+				$this->table_prefix.'messenger_friends_request' => array(
 					'COLUMNS' => array(
 						'request_id' => array('UINT', null, 'auto_increment', 0),
 						'user_id' => array('UINT', 0),
@@ -19,7 +19,7 @@ class m1_initial_scheme extends \phpbb\db\migration\migration
 					),
 					'PRIMARY_KEY' => 'request_id'
 				),
-				$this->table_prefix . 'messenger_user_friends' => array(
+				$this->table_prefix.'messenger_user_friends' => array(
 					'COLUMNS' => array(
 						'user_id' => array('UINT', 0),
 						'friend_id' => array('UINT', 0)
@@ -33,8 +33,8 @@ class m1_initial_scheme extends \phpbb\db\migration\migration
 	{
 		return array(
 			'drop_tables' => array(
-				$this->table_prefix . 'messenger_friends_request',
-				$this->table_prefix . 'messenger_user_friends'
+				$this->table_prefix.'messenger_friends_request',
+				$this->table_prefix.'messenger_user_friends'
 			)
 		);
 	}
