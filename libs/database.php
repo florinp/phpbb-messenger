@@ -12,15 +12,18 @@ class database extends \PDO
 	{
 		global $phpbb_root_path;
 
-		$database = $phpbb_root_path . 'store/messenger.db';
+		$database = $phpbb_root_path.'store/messenger.db';
 		parent::__construct('sqlite:'.$database);
 		parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
 
+	/**
+	 * @param string $sql
+	 */
 	public function select($sql, $array = array(), $fetchMode = PDO::FETCH_ASSOC)
 	{
 		$sth = $this->prepare($sql);
-		foreach($array as $key => $value)
+		foreach ($array as $key => $value)
 		{
 			$sth->bindValue("$key", $value);
 		}
@@ -29,6 +32,9 @@ class database extends \PDO
 		return $sth->fetchAll($fetchMode);
 	}
 
+	/**
+	 * @param string $table
+	 */
 	public function insert($table, $data)
 	{
 		//ksort($data);
@@ -38,7 +44,7 @@ class database extends \PDO
 
 		$sth = $this->prepare("INSERT INTO $table (`$fieldNames`) VALUES ($fieldValues)");
 
-		foreach($data as $key => $value)
+		foreach ($data as $key => $value)
 		{
 			$sth->bindValue(":$key", $value);
 		}
@@ -51,7 +57,7 @@ class database extends \PDO
 		ksort($data);
 
 		$fieldDetails = NULL;
-		foreach($data as $key=> $value) {
+		foreach ($data as $key=> $value) {
 			$fieldDetails .= "`$key`=:$key,";
 		}
 		$fieldDetails = rtrim($fieldDetails, ',');
