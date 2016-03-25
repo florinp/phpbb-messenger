@@ -3,7 +3,7 @@
 	"type": "phpbb-extension",
 	"description": "Messenger extension for phpBB 3.1",
 	"homepage": "https://github.com/florinp/phpbb-messenger",
-	"version": "1.0.5-dev",
+	"version": "1.0.6-dev",
 	"license": "GPL-2.0",
 	"authors": [{
 		"name": "Florin Pavel",

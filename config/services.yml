@@ -13,6 +13,8 @@ services:
             - @florinp.messenger.model
             - @notification_manager
             - @florinp.messenger.libs.emojione
+            - @florinp.messenger.libs.upload
+            - @florinp.messenger.libs.download
 
     florinp.messenger.friends.controller:
         class: florinp\messenger\controller\friends
@@ -65,6 +67,16 @@ services:
 
     florinp.messenger.libs.emojione:
         class: florinp\messenger\libs\emojione
+
+    florinp.messenger.libs.upload:
+        class: florinp\messenger\libs\upload
+        arguments:
+            - %core.root_path%
+
+    florinp.messenger.libs.download:
+        class: florinp\messenger\libs\download
+        arguments:
+            - %core.root_path%
 
     florinp.messenger.notification.type.friend_request:
         class: florinp\messenger\notification\type\friend_request
