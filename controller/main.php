@@ -8,9 +8,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class main
 {
 
-    protected $config;
-    protected $helper;
-    protected $template;
     protected $user;
     protected $model;
     protected $request;
@@ -20,9 +17,6 @@ class main
     protected $download;
 
     public function __construct(
-        \phpbb\config\config $config,
-        \phpbb\controller\helper $helper,
-        \phpbb\template\template $template,
         \phpbb\request\request $request,
         \phpbb\user $user,
         \florinp\messenger\models\main_model $model,
@@ -32,9 +26,6 @@ class main
         \florinp\messenger\libs\download $download
     )
     {
-        $this->config = $config;
-        $this->helper = $helper;
-        $this->template = $template;
         $this->request = $request;
         $this->user = $user;
         $this->model = $model;
@@ -55,17 +46,11 @@ class main
 
     public function publish()
     {
-        /* AJAX check  */
-        $http_request = $this->request->server('HTTP_X_REQUESTED_WITH');
-        if (empty($http_request) && strtolower($http_request) != 'xmlhttprequest') {
-            return new Response("The request is invalid", 500);
-        }
-
         $text = $this->request->variable('text', '', true);
         $receiver_id = $this->request->variable('receiver_id', 0);
         $sender_id = $this->user->data['user_id'];
 
-
+        $response = array();
         if ($receiver_id != 0 && trim($text) != '') {
             $text = htmlspecialchars($text);
             $text = str_replace(array("\n", "\r"), '', $text);
@@ -104,6 +89,7 @@ class main
         $receiver_id = $this->request->variable('receiver_id', 0);
         $sender_id = $this->user->data['user_id'];
 
+        $response = array();
         $file = $this->request->file('file');
         if ($receiver_id != 0 && !empty($file)) {
             if ($file['error'] == 0) {
@@ -151,11 +137,6 @@ class main
                     'error' => $file['error']
                 );
             }
-        } else {
-            $response = array(
-                'succes' => false,
-                'error' => 'An error has been ocurred!'
-            );
         }
 
         return new JsonResponse($response, 200);
@@ -163,12 +144,6 @@ class main
 
     public function load()
     {
-        /* AJAX check  */
-        $http_request = $this->request->server('HTTP_X_REQUESTED_WITH');
-        if (empty($http_request) && strtolower($http_request) != 'xmlhttprequest') {
-            return new Response("The request is invalid", 500);
-        }
-
         $friend_id = $this->request->variable('friend_id', 0);
 
         if ($friend_id > 0) {
@@ -180,12 +155,6 @@ class main
 
     public function updateMessages()
     {
-        /* AJAX check  */
-        $http_request = $this->request->server('HTTP_X_REQUESTED_WITH');
-        if (empty($http_request) && strtolower($http_request) != 'xmlhttprequest') {
-            return new Response("The request is invalid", 500);
-        }
-
         $friend_id = $this->request->variable('friend_id', 0);
         if ($friend_id > 0) {
             $newVal = $this->model->updateMessagesStatus($friend_id);
@@ -196,12 +165,6 @@ class main
 
     public function checkForNewMessages()
     {
-        /* AJAX check  */
-        $http_request = $this->request->server('HTTP_X_REQUESTED_WITH');
-        if (empty($http_request) && strtolower($http_request) != 'xmlhttprequest') {
-            return new Response("The request is invalid", 500);
-        }
-
         $friend_id = $this->request->variable('friend_id', 0);
         if ($friend_id > 0) {
             $messages = $this->model->getInboxFromId($friend_id);
@@ -212,12 +175,6 @@ class main
 
     public function getFriends()
     {
-        /* AJAX check  */
-        $http_request = $this->request->server('HTTP_X_REQUESTED_WITH');
-        if (empty($http_request) && strtolower($http_request) != 'xmlhttprequest') {
-            return new Response("The request is invalid", 500);
-        }
-
         $friends = $this->model->getFriends();
         $friends_online = array_filter($friends, function ($friend) {
             return $friend['user_status'] != 0;

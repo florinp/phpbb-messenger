@@ -5,9 +5,6 @@ services:
     florinp.messenger.controller:
         class: florinp\messenger\controller\main
         arguments:
-            - @config
-            - @controller.helper
-            - @template
             - @request
             - @user
             - @florinp.messenger.model
