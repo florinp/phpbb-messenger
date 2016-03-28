@@ -40,13 +40,6 @@ class main_test extends \phpbb_test_case {
             ->getMock();
 
         /**
-         * @var \florinp\messenger\libs\emojione $emojione
-         */
-        $emojione = $this->getMockBuilder('\florinp\messenger\libs\emojione')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        /**
          * @var \florinp\messenger\libs\upload $upload
          */
         $upload = $this->getMockBuilder('\florinp\messenger\libs\upload')
@@ -65,7 +58,6 @@ class main_test extends \phpbb_test_case {
             $user,
             $model,
             $notification_manager,
-            $emojione,
             $upload,
             $download
         );
