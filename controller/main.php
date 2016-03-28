@@ -5,6 +5,13 @@ namespace florinp\messenger\controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use phpbb\request\request;
+use phpbb\user;
+use florinp\messenger\models\main_model;
+use phpbb\notification\manager;
+use florinp\messenger\libs\upload;
+use florinp\messenger\libs\download;
+
 class main
 {
 
@@ -12,25 +19,22 @@ class main
     protected $model;
     protected $request;
     protected $notification_manager;
-    protected $emojione;
     protected $upload;
     protected $download;
 
     public function __construct(
-        \phpbb\request\request $request,
-        \phpbb\user $user,
-        \florinp\messenger\models\main_model $model,
-        \phpbb\notification\manager $notification_manager,
-        \florinp\messenger\libs\emojione $emojione,
-        \florinp\messenger\libs\upload $upload,
-        \florinp\messenger\libs\download $download
+        request $request,
+        user $user,
+        main_model $model,
+        manager $notification_manager,
+        upload $upload,
+        download $download
     )
     {
         $this->request = $request;
         $this->user = $user;
         $this->model = $model;
         $this->notification_manager = $notification_manager;
-        $this->emojione = $emojione;
         $this->upload = $upload;
         $this->download = $download;
     }
@@ -190,21 +194,7 @@ class main
 
     public function getEmoticons()
     {
-        $emoticons = \florinp\messenger\libs\emojione::$ascii_replace;
-        $eicons = array();
-        foreach ($emoticons as $code => $value) {
-            $eicons[$value] = $code;
-        }
-
         $response = array();
-        foreach ($eicons as $emoticon) {
-            $item = array();
-            $item['code'] = $emoticon;
-            $item['image'] = $this->emojione->toImage($emoticon);
-
-            $response[] = $item;
-        }
-
         return new JsonResponse($response, 200);
     }
 

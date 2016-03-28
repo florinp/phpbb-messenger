@@ -81,7 +81,6 @@ class main_test extends \phpbb_test_case {
             array(200, json_encode(array()))
         );
     }
-
     /**
      * @dataProvider publish_data
      */
@@ -92,6 +91,7 @@ class main_test extends \phpbb_test_case {
         $this->assertEquals($page_content, $response->getContent());
     }
 
+
     public function load_data() {
         return array(
             array(200, json_encode(array(
@@ -100,7 +100,6 @@ class main_test extends \phpbb_test_case {
             )))
         );
     }
-
     /**
      * @dataProvider load_data
      */
@@ -109,5 +108,12 @@ class main_test extends \phpbb_test_case {
         $this->assertInstanceOf('\Symfony\Component\HttpFoundation\Response', $response);
         $this->assertEquals($status_code, $response->getStatusCode());
         $this->assertEquals($page_content, $response->getContent());
+    }
+
+
+    public function updateMessages_data() {
+        return array(
+            array(200, json_encode(array('success' => false)))
+        );
     }
 }
