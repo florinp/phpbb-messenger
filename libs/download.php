@@ -33,7 +33,7 @@ class download {
 	 * @param string $phpbb_root_path phpBB root path
 	 */
 	public function __construct($phpbb_root_path) {
-		$this->directory = $phpbb_root_path . 'store/messenger/files';
+		$this->directory = $phpbb_root_path.'store/messenger/files';
 	}
 
 
@@ -43,10 +43,10 @@ class download {
 	 * @throws InvalidArgumentException when the file not exist or is not readable
 	 */
 	public function setFile($filename) {
-		$file_full_path = $this->directory . '/'. $filename;
-		if(!is_file($file_full_path)) {
+		$file_full_path = $this->directory.'/'.$filename;
+		if (!is_file($file_full_path)) {
 			throw new InvalidArgumentException("File does not exist");
-		} else if(!is_readable($file_full_path)) {
+		} else if (!is_readable($file_full_path)) {
 			throw new InvalidArgumentException("File to download is not readable.");
 		}
 		$this->filename = $filename;
@@ -80,7 +80,7 @@ class download {
 	 * @param bool|true $forceDownload
 	 */
 	public function sendDownload($forceDownload = true) {
-		if(headers_sent()) {
+		if (headers_sent()) {
 			throw new \RuntimeException("Cannot send file to the browser, since the headers were already sent");
 		}
 		$mimeType = $this->getMimeType();
@@ -95,7 +95,7 @@ class download {
 		header("Cache-Control: private", false);
 		header("Content-Type: application/octet-stream");
 
-		if($forceDownload) {
+		if ($forceDownload) {
 			header("Content-Disposition: attachment; filename=\"{$this->filename}\";");
 		} else {
 			header("Content-Disposition: filename=\"{$this->filename}\";");

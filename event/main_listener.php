@@ -67,17 +67,17 @@ class main_listener implements EventSubscriberInterface
 	{
 		$context = new RequestContext();
 		$context->fromRequest($this->symfony_request);
-		$baseUrl = generate_board_url(true) . $context->getBaseUrl();
+		$baseUrl = generate_board_url(true).$context->getBaseUrl();
 
 		$scriptName = $this->symfony_request->getScriptName();
 		$scriptName = substr($scriptName, -1, 1) == '/' ? '' : utf8_basename($scriptName);
 
 		if ($scriptName != '') {
-			$baseUrl = str_replace('/' . $scriptName, '', $baseUrl);
+			$baseUrl = str_replace('/'.$scriptName, '', $baseUrl);
 		}
 
 		$friends = $this->model->getFriends();
-		$friends_online = array_filter($friends, function ($friend) {
+		$friends_online = array_filter($friends, function($friend) {
 			return $friend['user_status'] != 0;
 		});
 		$this->template->assign_var('S_COUNT_FRIENDS', count($friends_online));
@@ -118,13 +118,13 @@ class main_listener implements EventSubscriberInterface
 	{
 		$context = new RequestContext();
 		$context->fromRequest($this->symfony_request);
-		$baseUrl = generate_board_url(true) . $context->getBaseUrl();
+		$baseUrl = generate_board_url(true).$context->getBaseUrl();
 
 		$scriptName = $this->symfony_request->getScriptName();
 		$scriptName = substr($scriptName, -1, 1) == '/' ? '' : utf8_basename($scriptName);
 
 		if ($scriptName != '') {
-			$baseUrl = str_replace('/' . $scriptName, '', $baseUrl);
+			$baseUrl = str_replace('/'.$scriptName, '', $baseUrl);
 		}
 
 		$user_id = $event['member']['user_id'];
@@ -143,7 +143,9 @@ class main_listener implements EventSubscriberInterface
 			'sender_id' => $user_id
 		));
 		$check_widget = true;
-		if ($user_id == $this->user->data['user_id']) $check_widget = false;
+		if ($user_id == $this->user->data['user_id']) {
+			$check_widget = false;
+		}
 		$this->template->assign_vars(array(
 			'U_USER_ID' => $user_id,
 			'U_CHECK_FRIEND' => $check_friend,

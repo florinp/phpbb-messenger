@@ -12,8 +12,8 @@ class database extends \PDO
 	{
 		global $phpbb_root_path;
 
-		$database = $phpbb_root_path . 'store/messenger.db';
-		parent::__construct('sqlite:' . $database);
+		$database = $phpbb_root_path.'store/messenger.db';
+		parent::__construct('sqlite:'.$database);
 		parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
 
@@ -41,7 +41,7 @@ class database extends \PDO
 		//ksort($data);
 
 		$fieldNames = implode('`, `', array_keys($data));
-		$fieldValues = ':' . implode(', :', array_keys($data));
+		$fieldValues = ':'.implode(', :', array_keys($data));
 
 		$sth = $this->prepare("INSERT INTO $table (`$fieldNames`) VALUES ($fieldValues)");
 
