@@ -14,144 +14,144 @@ use phpbb\symfony_request;
 class main_listener implements EventSubscriberInterface
 {
 
-    static public function getSubscribedEvents()
-    {
-        return array(
-            'core.user_setup' => 'load_language_on_setup',
-            'core.page_footer' => 'friends_list',
-            'core.page_header' => 'check_login',
-            'core.memberlist_view_profile' => 'check_friends'
-        );
-    }
+	static public function getSubscribedEvents()
+	{
+		return array(
+			'core.user_setup' => 'load_language_on_setup',
+			'core.page_footer' => 'friends_list',
+			'core.page_header' => 'check_login',
+			'core.memberlist_view_profile' => 'check_friends'
+		);
+	}
 
 
-    /* @var \phpbb\template\template */
-    protected $template;
+	/* @var \phpbb\template\template */
+	protected $template;
 
-    /**
-     * @var main_model
-     */
-    protected $model;
+	/**
+	 * @var main_model
+	 */
+	protected $model;
 
-    /**
-     * @var friends_model
-     */
-    protected $friends_model;
+	/**
+	 * @var friends_model
+	 */
+	protected $friends_model;
 
-    /**
-     * @var user
-     */
-    protected $user;
+	/**
+	 * @var user
+	 */
+	protected $user;
 
-    /**
-     * @var symfony_request
-     */
-    protected $symfony_request;
+	/**
+	 * @var symfony_request
+	 */
+	protected $symfony_request;
 
-    public function __construct(
-        template $template,
-        main_model $model,
-        friends_model $friends_model,
-        user $user,
-        symfony_request $symfony_request
-    )
-    {
-        $this->template = $template;
-        $this->model = $model;
-        $this->friends_model = $friends_model;
-        $this->user = $user;
-        $this->symfony_request = $symfony_request;
-    }
+	public function __construct(
+		template $template,
+		main_model $model,
+		friends_model $friends_model,
+		user $user,
+		symfony_request $symfony_request
+	)
+	{
+		$this->template = $template;
+		$this->model = $model;
+		$this->friends_model = $friends_model;
+		$this->user = $user;
+		$this->symfony_request = $symfony_request;
+	}
 
-    public function friends_list()
-    {
-        $context = new RequestContext();
-        $context->fromRequest($this->symfony_request);
-        $baseUrl = generate_board_url(true) . $context->getBaseUrl();
+	public function friends_list()
+	{
+		$context = new RequestContext();
+		$context->fromRequest($this->symfony_request);
+		$baseUrl = generate_board_url(true) . $context->getBaseUrl();
 
-        $scriptName = $this->symfony_request->getScriptName();
-        $scriptName = substr($scriptName, -1, 1) == '/' ? '' : utf8_basename($scriptName);
+		$scriptName = $this->symfony_request->getScriptName();
+		$scriptName = substr($scriptName, -1, 1) == '/' ? '' : utf8_basename($scriptName);
 
-        if ($scriptName != '') {
-            $baseUrl = str_replace('/' . $scriptName, '', $baseUrl);
-        }
+		if ($scriptName != '') {
+			$baseUrl = str_replace('/' . $scriptName, '', $baseUrl);
+		}
 
-        $friends = $this->model->getFriends();
-        $friends_online = array_filter($friends, function ($friend) {
-            return $friend['user_status'] != 0;
-        });
-        $this->template->assign_var('S_COUNT_FRIENDS', count($friends_online));
-        foreach ($friends as $friend) {
-            $this->template->assign_block_vars('chat_friends', array(
-                'U_USERID' => $friend['user_id'],
-                'U_USERNAME' => $friend['username'],
-                'U_USERCOLOR' => $friend['user_colour'],
-                'U_STATUS' => $friend['user_status'],
-                'U_USERINBOX' => $friend['inbox'],
-            ));
-        }
-        $this->template->assign_vars(array(
-            'BASE_URL' => $baseUrl
-        ));
-    }
+		$friends = $this->model->getFriends();
+		$friends_online = array_filter($friends, function ($friend) {
+			return $friend['user_status'] != 0;
+		});
+		$this->template->assign_var('S_COUNT_FRIENDS', count($friends_online));
+		foreach ($friends as $friend) {
+			$this->template->assign_block_vars('chat_friends', array(
+				'U_USERID' => $friend['user_id'],
+				'U_USERNAME' => $friend['username'],
+				'U_USERCOLOR' => $friend['user_colour'],
+				'U_STATUS' => $friend['user_status'],
+				'U_USERINBOX' => $friend['inbox'],
+			));
+		}
+		$this->template->assign_vars(array(
+			'BASE_URL' => $baseUrl
+		));
+	}
 
-    public function load_language_on_setup($event)
-    {
-        $lang_set_ext = $event['lang_set_ext'];
-        $lang_set_ext[] = array(
-            'ext_name' => 'florinp/messenger',
-            'lang_set' => 'common',
-        );
-        $event['lang_set_ext'] = $lang_set_ext;
-    }
+	public function load_language_on_setup($event)
+	{
+		$lang_set_ext = $event['lang_set_ext'];
+		$lang_set_ext[] = array(
+			'ext_name' => 'florinp/messenger',
+			'lang_set' => 'common',
+		);
+		$event['lang_set_ext'] = $lang_set_ext;
+	}
 
-    public function check_login()
-    {
-        $s_enable_messenger = 0;
-        if (in_array($this->user->data['user_type'], array(USER_NORMAL, USER_FOUNDER))) {
-            $s_enable_messenger = 1;
-        }
-        $this->template->assign_var('S_ENABLE_MESSENGER', $s_enable_messenger);
-    }
+	public function check_login()
+	{
+		$s_enable_messenger = 0;
+		if (in_array($this->user->data['user_type'], array(USER_NORMAL, USER_FOUNDER))) {
+			$s_enable_messenger = 1;
+		}
+		$this->template->assign_var('S_ENABLE_MESSENGER', $s_enable_messenger);
+	}
 
-    public function check_friends($event)
-    {
-        $context = new RequestContext();
-        $context->fromRequest($this->symfony_request);
-        $baseUrl = generate_board_url(true) . $context->getBaseUrl();
+	public function check_friends($event)
+	{
+		$context = new RequestContext();
+		$context->fromRequest($this->symfony_request);
+		$baseUrl = generate_board_url(true) . $context->getBaseUrl();
 
-        $scriptName = $this->symfony_request->getScriptName();
-        $scriptName = substr($scriptName, -1, 1) == '/' ? '' : utf8_basename($scriptName);
+		$scriptName = $this->symfony_request->getScriptName();
+		$scriptName = substr($scriptName, -1, 1) == '/' ? '' : utf8_basename($scriptName);
 
-        if ($scriptName != '') {
-            $baseUrl = str_replace('/' . $scriptName, '', $baseUrl);
-        }
+		if ($scriptName != '') {
+			$baseUrl = str_replace('/' . $scriptName, '', $baseUrl);
+		}
 
-        $user_id = $event['member']['user_id'];
-        $sender_id = $this->user->data['user_id'];
-        $request = $this->friends_model->get_request_by_sender_id($sender_id);
-        $check_friend = $this->friends_model->check_friend(array(
-            'user_id' => $this->user->data['user_id'],
-            'friend_id' => $user_id,
-        ));
-        $check_request = $this->friends_model->check_request(array(
-            'user_id' => $user_id,
-            'sender_id' => $this->user->data['user_id']
-        ));
-        $check_request_confirm = $this->friends_model->check_request(array(
-            'user_id' => $this->user->data['user_id'],
-            'sender_id' => $user_id
-        ));
-        $check_widget = true;
-        if ($user_id == $this->user->data['user_id']) $check_widget = false;
-        $this->template->assign_vars(array(
-            'U_USER_ID' => $user_id,
-            'U_CHECK_FRIEND' => $check_friend,
-            'U_CHECK_REQUEST' => $check_request,
-            'U_CHECK_REQUEST_CONFIRM' => $check_request_confirm,
-            'U_CHECK_WIDGET' => $check_widget,
-            'U_REQUEST_ID' => $request['request_id'],
-            'BASE_URL' => $baseUrl
-        ));
-    }
+		$user_id = $event['member']['user_id'];
+		$sender_id = $this->user->data['user_id'];
+		$request = $this->friends_model->get_request_by_sender_id($sender_id);
+		$check_friend = $this->friends_model->check_friend(array(
+			'user_id' => $this->user->data['user_id'],
+			'friend_id' => $user_id,
+		));
+		$check_request = $this->friends_model->check_request(array(
+			'user_id' => $user_id,
+			'sender_id' => $this->user->data['user_id']
+		));
+		$check_request_confirm = $this->friends_model->check_request(array(
+			'user_id' => $this->user->data['user_id'],
+			'sender_id' => $user_id
+		));
+		$check_widget = true;
+		if ($user_id == $this->user->data['user_id']) $check_widget = false;
+		$this->template->assign_vars(array(
+			'U_USER_ID' => $user_id,
+			'U_CHECK_FRIEND' => $check_friend,
+			'U_CHECK_REQUEST' => $check_request,
+			'U_CHECK_REQUEST_CONFIRM' => $check_request_confirm,
+			'U_CHECK_WIDGET' => $check_widget,
+			'U_REQUEST_ID' => $request['request_id'],
+			'BASE_URL' => $baseUrl
+		));
+	}
 }
