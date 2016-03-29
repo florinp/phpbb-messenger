@@ -134,7 +134,7 @@ class friends_model
 	public function insert_friends_request(array $data)
 	{
 		$sql = "
-      INSERT INTO " . $this->friends_request_table . "
+      INSERT INTO " . $this->friends_request_table."
         (
           `user_id`,
           `sender_id`,
@@ -157,7 +157,7 @@ class friends_model
 	public function delete_friend_request($request_id)
 	{
 		$sql = "
-			DELETE FROM " . $this->friends_request_table . " WHERE `request_id` = " . (int)$request_id . "
+			DELETE FROM " . $this->friends_request_table." WHERE `request_id` = ".(int)$request_id."
 		";
 
 		return $this->db->sql_query($sql);
@@ -166,7 +166,7 @@ class friends_model
 	public function approve_friend_request($request_id)
 	{
 		$sql = "
-			UPDATE " . $this->friends_request_table . " SET `status` = 1 WHERE `request_id` = " . (int)$request_id . "
+			UPDATE " . $this->friends_request_table." SET `status` = 1 WHERE `request_id` = ".(int)$request_id."
 		";
 
 		return $this->db->sql_query($sql);
@@ -178,15 +178,15 @@ class friends_model
 		$check_friend = $this->check_friend($data);
 		if ($check_friend == false) {
 			$sql = "
-				INSERT INTO " . $this->user_friends_table . "
+				INSERT INTO " . $this->user_friends_table."
 					(
 						`user_id`,
 						`friend_id`
 					)
 				VALUES
 					(
-						" . (int)$data['user_id'] . ",
-						" . (int)$data['friend_id'] . "
+						" . (int)$data['user_id'].",
+						" . (int)$data['friend_id']."
 					)
 			";
 			if ($this->db->sql_query($sql)) {
@@ -242,10 +242,10 @@ class friends_model
 
 	public function remove_friend($user_id)
 	{
-		$sql = "DELETE FROM " . $this->user_friends_table . " WHERE `user_id` = " . (int)$user_id . "";
+		$sql = "DELETE FROM ".$this->user_friends_table." WHERE `user_id` = ".(int)$user_id."";
 		$this->db->sql_query($sql);
 
-		$sql = "DELETE FROM " . $this->user_friends_table . " WHERE `friend_id` = " . (int)$user_id . "";
+		$sql = "DELETE FROM ".$this->user_friends_table." WHERE `friend_id` = ".(int)$user_id."";
 		$this->db->sql_query($sql);
 	}
 

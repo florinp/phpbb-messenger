@@ -147,10 +147,10 @@ class upload
      */
     public function __construct($phpbb_root_path)
     {
-            $phpbb_root_path = $phpbb_root_path . 'store/messenger/files';
+            $phpbb_root_path = $phpbb_root_path.'store/messenger/files';
         // set & create destination path
         if (!$this->set_destination($phpbb_root_path)) {
-            throw new Exception('Upload: Can\'t create destination. ' . $this->root . $this->destination);
+            throw new Exception('Upload: Can\'t create destination. '.$this->root.$this->destination);
         }
 
         //create finfo object
@@ -244,8 +244,8 @@ class upload
         $this->file['filename'] = $this->filename;
 
         //set full path
-        $this->file['full_path'] = $this->root . $this->destination . $this->filename;
-        $this->file['path'] = $this->destination . $this->filename;
+        $this->file['full_path'] = $this->root.$this->destination.$this->filename;
+        $this->file['path'] = $this->destination.$this->filename;
 
         $status = move_uploaded_file($this->tmp_name, $this->file['full_path']);
 
@@ -365,7 +365,7 @@ class upload
     /**
      * Set allowed mime types
      *
-     * @param array $mimes
+     * @param string[] $mimes
      */
     public function set_allowed_mime_types($mimes)
     {
@@ -476,7 +476,7 @@ class upload
      */
     protected function set_destination($destination)
     {
-        $this->destination = $destination . DIRECTORY_SEPARATOR;
+        $this->destination = $destination.DIRECTORY_SEPARATOR;
         return $this->destination_exist() ? TRUE : $this->create_destination();
     }
 
@@ -487,7 +487,7 @@ class upload
      */
     protected function destination_exist()
     {
-        return is_writable($this->root . $this->destination);
+        return is_writable($this->root.$this->destination);
     }
 
     /**
@@ -497,7 +497,7 @@ class upload
      */
     protected function create_destination()
     {
-        return mkdir($this->root . $this->destination, $this->default_permissions, true);
+        return mkdir($this->root.$this->destination, $this->default_permissions, true);
     }
 
     /**
@@ -507,7 +507,7 @@ class upload
      */
     protected function create_new_filename()
     {
-        $filename = sha1(mt_rand(1, 9999) . $this->destination . uniqid()) . time() . '.' . $this->extension;
+        $filename = sha1(mt_rand(1, 9999).$this->destination.uniqid()).time().'.'.$this->extension;
         $this->set_filename($filename);
     }
 
@@ -515,7 +515,7 @@ class upload
      * Convert bytes to mb.
      *
      * @param int $bytes
-     * @return int
+     * @return double
      */
     protected function bytes_to_mb($bytes)
     {

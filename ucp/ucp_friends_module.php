@@ -17,22 +17,22 @@ class ucp_friends_module
 
 	$this->tpl_name = 'friends';
 
-	switch($mode)
+	switch ($mode)
 	{
 	  case 'friends':
 		
 		$action = $request->variable('action', '');
-		switch($action)
+		switch ($action)
 		{
 			case 'add_friend':
 				$user_id = $request->variable('user_id', 0);
-				if($user_id > 0)
+				if ($user_id > 0)
 				{
-				  if(confirm_box(true))
+				  if (confirm_box(true))
 				  {
 					$user_id = $request->variable('user_id', 0);
 					$redirect_url = $request->variable('redirect_url', '');
-					if($friends_controller->send_request($user_id))
+					if ($friends_controller->send_request($user_id))
 					{
 					  redirect($redirect_url);
 					}
@@ -71,22 +71,21 @@ class ucp_friends_module
 			}
 		  break;
 			default:
-				if($request->is_set_post('action'))
+				if ($request->is_set_post('action'))
 				{
 					$action = $request->variable('action', '');
-					switch($action) 
+					switch ($action) 
 					{
 						case 'remove':
-							if(confirm_box(true))
+							if (confirm_box(true))
 							{
 								$user_id = $request->variable('user_id', array(0));
 								$redirect_url = $request->variable('redirect_url', '');
-								if($friends_controller->remove_friend($user_id))
+								if ($friends_controller->remove_friend($user_id))
 								{
 								  redirect($redirect_url);
 								}
-							}
-							else
+							} else
 							{
 								$user_id = $request->variable('user_id', array(0));
 								$redirect_url = $request->server('HTTP_REFERER');
@@ -106,20 +105,19 @@ class ucp_friends_module
 
 	  case 'requests':
 
-		if($request->is_set_post('action'))
+		if ($request->is_set_post('action'))
 		{
 		  $action = $request->variable('action', '');
 
-		  switch($action)
+		  switch ($action)
 		  {
 			case 'delete':
 
-			  if(confirm_box(true))
+			  if (confirm_box(true))
 			  {
 				$requests_id = $request->variable('requests_id', array(0));
 				$friends_controller->delete_request($requests_id);
-			  }
-			  else
+			  } else
 			  {
 				$requests_id = $request->variable('requests_id', array(0));
 				confirm_box(false, $user->lang('CONFIRM_REMOVE_REQUESTS'), build_hidden_fields(array(
@@ -138,19 +136,18 @@ class ucp_friends_module
 		}
         
 		$action = $request->variable('action', '');
-		switch($action)
+		switch ($action)
 		{
 			case 'cancel_request':
-				if(confirm_box(true))
+				if (confirm_box(true))
 			  {
 				$request_id = $request->variable('request_id', 0);
 				$redirect_url = $request->variable('redirect_url', '');
-				if($friends_controller->delete_request($request_id))
+				if ($friends_controller->delete_request($request_id))
 				{
 					redirect($redirect_url);
 				}
-			  }
-			  else
+			  } else
 			  {
 				$request_id = $request->variable('request_id', 0);
 				$redirect_url = $request->server('HTTP_REFERER');

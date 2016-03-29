@@ -158,10 +158,11 @@ class main_model
 			'sentAt' => time()
 		);
 
-		if ($this->db->insert('messages', $insert))
-			return $this->db->lastInsertId();
-		else
-			return false;
+		if ($this->db->insert('messages', $insert)) {
+					return $this->db->lastInsertId();
+		} else {
+					return false;
+		}
 	}
 
 	/**
@@ -180,10 +181,11 @@ class main_model
 			'sentAt' => time()
 		);
 
-		if ($this->db->insert('files', $insert))
-			return $this->db->lastInsertId();
-		else
-			return false;
+		if ($this->db->insert('files', $insert)) {
+					return $this->db->lastInsertId();
+		} else {
+					return false;
+		}
 	}
 
 	/**
@@ -291,7 +293,7 @@ class main_model
 
 		foreach ($sentFiles as $file) {
 			$item = array();
-			$item['id'] = 'f_' . $file['id'];
+			$item['id'] = 'f_'.$file['id'];
 			$item['sender_id'] = $file['sender_id'];
 			$item['receiver_id'] = $file['receiver_id'];
 			$item['fileName'] = $file['fileName'];
@@ -304,7 +306,7 @@ class main_model
 
 		foreach ($getFiles as $file) {
 			$item = array();
-			$item['id'] = 'f_' . $file['id'];
+			$item['id'] = 'f_'.$file['id'];
 			$item['sender_id'] = $file['sender_id'];
 			$item['receiver_id'] = $file['receiver_id'];
 			$item['fileName'] = $file['fileName'];
@@ -317,7 +319,7 @@ class main_model
 
 		$unsorted_messages = array_merge($sent, $inbox);
 
-		uasort($unsorted_messages, function ($a, $b) {
+		uasort($unsorted_messages, function($a, $b) {
 			return ($a['sentAt'] > $b['sentAt']) ? -1 : 1;
 		});
 

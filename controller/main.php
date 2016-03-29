@@ -180,7 +180,7 @@ class main
     public function getFriends()
     {
         $friends = $this->model->getFriends();
-        $friends_online = array_filter($friends, function ($friend) {
+        $friends_online = array_filter($friends, function($friend) {
             return $friend['user_status'] != 0;
         });
 
