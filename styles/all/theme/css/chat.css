@@ -86,7 +86,8 @@
     transition: 0.3s ease; }
     .chat_body .user .user-avatar {
       border-radius: 50%;
-      margin-right: 0.6rem; }
+      margin-right: 0.6rem;
+      width: 32px; }
     .chat_body .user .user-name {
       font-size: 1rem; }
     .chat_body .user .user-status {
@@ -127,7 +128,7 @@
   z-index: 1010;
   transition: 0.3s ease; }
   .msg_box .msg_head {
-    height: 3rem;
+    height: 2rem;
     font-weight: bold;
     cursor: pointer;
     position: relative;
@@ -143,18 +144,19 @@
     transition: 0.3s ease; }
     .msg_box .msg_head .user-avatar {
       border-radius: 50%;
-      margin-right: 0.6rem; }
+      margin-right: 0.6rem;
+      width: 32px; }
     .msg_box .msg_head .user-name {
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-weight: 200; }
     .msg_box .msg_head .close {
       position: absolute;
-      top: 1rem;
+      top: 0.5rem;
       right: 0.3rem;
       width: 32px;
       height: 32px;
       text-align: center;
-      font-size: 1.2rem; }
+      font-size: 1rem; }
       .msg_box .msg_head .close:hover {
         cursor: pointer; }
       .msg_box .msg_head .close:before {
@@ -182,6 +184,9 @@
           height: 36px;
           width: 36px;
           border-radius: 50%; }
+          .msg_box .msg_wrap .msg_body .msg .circle-wrapper img {
+            width: 100%;
+            border-radius: 50%; }
         .msg_box .msg_wrap .msg_body .msg .text-wrapper {
           padding: 9px;
           min-height: 27px;

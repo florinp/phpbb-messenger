@@ -6,6 +6,7 @@ use phpbb\config\config;
 use phpbb\db\driver\driver_interface;
 use phpbb\user;
 use florinp\messenger\libs\database;
+use phpbb\user_loader;
 
 
 class main_model
@@ -41,11 +42,17 @@ class main_model
      */
     protected $user_friends_table;
 
+	/**
+	 * @var user_loader
+	 */
+	protected $user_loader;
+
 
     public function __construct(
         config $config,
         driver_interface $phpbb_db,
         user $user,
+		user_loader $user_loader,
         database $db,
         $friends_request_table,
         $user_friends_table
@@ -57,6 +64,7 @@ class main_model
         $this->db = $db;
         $this->friends_request_table = $friends_request_table;
         $this->user_friends_table = $user_friends_table;
+		$this->user_loader = $user_loader;
     }
 
     /**
@@ -88,6 +96,7 @@ class main_model
                 'username' => $row['username_clean'],
                 'user_colour' => $row['user_colour'],
                 'user_status' => ($row['session_time'] >= (time() - ($this->config['load_online_time'] * 60))) ? 1 : 0,
+				'user_avatar' => $this->user_loader->get_avatar($row['user_id'], true, true),
                 'inbox' => $this->getInboxFromId($row['user_id'])
             );
         }
@@ -202,8 +211,10 @@ class main_model
         $message = $this->db->select($sql, array(
             ':id' => $id
         ));
+		$message = $message[0];
+		$message = $this->parseMessage($message, $message['type']);
 
-        return $message[0];
+        return $message;
     }
 
     /**
@@ -222,8 +233,10 @@ class main_model
         $file = $this->db->select($sql, array(
             ':id' => $id
         ));
+		$file = $file[0];
+		$file = $this->parseFile($file, $file['type']);
 
-        return $file[0];
+        return $file;
     }
 
     /**
@@ -233,6 +246,8 @@ class main_model
      */
     public function getMessages($friend_id)
     {
+		$this->user_loader->load_users([$this->user->data['user_id'], $friend_id]);
+
         // get the sent messages
         $sql = "SELECT *
 				FROM `messages`
@@ -266,52 +281,22 @@ class main_model
 
         $sent = array();
         foreach ($sentMessages as $msg) {
-            $item = array();
-            $item['id'] = $msg['id'];
-            $item['sender_id'] = $msg['sender_id'];
-            $item['receiver_id'] = $msg['receiver_id'];
-            $item['text'] = $msg['text'];
-            $item['sentAt'] = $msg['sentAt'];
-            $item['type'] = 'sent';
-
+            $item = $this->parseMessage($msg, 'sent');
             $sent[] = $item;
         }
         $inbox = array();
         foreach ($getInbox as $msg) {
-            $item = array();
-            $item['id'] = $msg['id'];
-            $item['sender_id'] = $msg['sender_id'];
-            $item['receiver_id'] = $msg['receiver_id'];
-            $item['text'] = $msg['text'];
-            $item['sentAt'] = $msg['sentAt'];
-            $item['type'] = 'inbox';
-
+            $item = $this->parseMessage($msg, 'inbox');
             $inbox[] = $item;
         }
 
         foreach ($sentFiles as $file) {
-            $item = array();
-            $item['id'] = 'f_' . $file['id'];
-            $item['sender_id'] = $file['sender_id'];
-            $item['receiver_id'] = $file['receiver_id'];
-            $item['fileName'] = $file['fileName'];
-            $item['file'] = $file['file'];
-            $item['sentAt'] = $file['sentAt'];
-            $item['type'] = 'sent';
-
+            $item = $this->parseFile($file, 'sent');
             $sent[] = $item;
         }
 
         foreach ($getFiles as $file) {
-            $item = array();
-            $item['id'] = 'f_' . $file['id'];
-            $item['sender_id'] = $file['sender_id'];
-            $item['receiver_id'] = $file['receiver_id'];
-            $item['fileName'] = $file['fileName'];
-            $item['file'] = $file['file'];
-            $item['sentAt'] = $file['sentAt'];
-            $item['type'] = 'inbox';
-
+            $item = $this->parseFile($file, 'inbox');
             $inbox[] = $item;
         }
 
@@ -328,6 +313,47 @@ class main_model
 
         return $sorted_messages;
     }
+
+	/**
+	 * Parse message to specific array
+	 * @param array $msg Message data as array from database
+	 * @param string $type 'inbox' is for received messages and 'sent' is for sent messages
+	 * @return array
+	 */
+	protected function parseMessage($msg, $type) {
+		$item = array();
+		$item['id'] = $msg['id'];
+		$item['sender_id'] = $msg['sender_id'];
+		$item['sender_avatar'] = $this->user_loader->get_avatar($msg['sender_id'], true, true);
+		$item['receiver_id'] = $msg['receiver_id'];
+		$item['receiver_avatar'] = $this->user_loader->get_avatar($msg['receiver_id'], true, true);
+		$item['text'] = $msg['text'];
+		$item['sentAt'] = $msg['sentAt'];
+		$item['type'] = $type;
+
+		return $item;
+	}
+
+	/**
+	 * Parse file to specific array
+	 * @param array $file File data as array from database
+	 * @param string $type 'inbox' is for received messages and 'sent' is for sent messages
+	 * @return array
+	 */
+	protected function parseFile($file, $type) {
+		$item = array();
+		$item['id'] = 'f_' . $file['id'];
+		$item['sender_id'] = $file['sender_id'];
+		$item['sender_avatar'] = $this->user_loader->get_avatar($file['sender_id'], true, true);
+		$item['receiver_id'] = $file['receiver_id'];
+		$item['receiver_avatar'] = $this->user_loader->get_avatar($file['receiver_id'], true, true);
+		$item['fileName'] = $file['fileName'];
+		$item['file'] = $file['file'];
+		$item['sentAt'] = $file['sentAt'];
+		$item['type'] = $type;
+
+		return $item;
+	}
 
     /**
      * Change messages status to read

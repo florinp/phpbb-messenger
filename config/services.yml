@@ -39,6 +39,7 @@ services:
             - @config
             - @dbal.conn
             - @user
+            - @user_loader
             - @florinp.messenger.libs.database
             - %florinp.messenger.tables.friends_request%
             - %florinp.messenger.tables.user_friends%

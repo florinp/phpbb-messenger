@@ -154,4 +154,5 @@ class main_listener implements EventSubscriberInterface
             'BASE_URL' => $baseUrl
         ));
     }
+
 }
