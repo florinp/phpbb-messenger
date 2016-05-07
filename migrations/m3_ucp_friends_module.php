@@ -20,7 +20,7 @@ class m3_ucp_friends_module extends \phpbb\db\migration\migration
 					array(
 						'module_basename'   => '\florinp\messenger\ucp\ucp_friends_module',
 						'module_class' => 'ucp_friends_module',
-						'modes' => array('friends','requests'),
+						'modes' => array('friends', 'requests'),
 					),
 				)
 			),
@@ -36,7 +36,7 @@ class m3_ucp_friends_module extends \phpbb\db\migration\migration
 					array(
 						'module_basename'   => '\florinp\messenger\ucp\ucp_friends_module',
 						'module_class' => 'ucp_friends_module',
-						'modes' => array('friends','requests'),
+						'modes' => array('friends', 'requests'),
 					)
 				)
 			),
