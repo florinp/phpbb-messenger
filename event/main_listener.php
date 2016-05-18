@@ -18,7 +18,7 @@ class main_listener implements EventSubscriberInterface
     {
         return array(
             'core.user_setup' => 'load_language_on_setup',
-            'core.page_footer' => 'friends_list',
+            'core.page_footer' => 'get_language',
             'core.page_header' => 'check_login',
             'core.memberlist_view_profile' => 'check_friends'
         );
@@ -63,35 +63,10 @@ class main_listener implements EventSubscriberInterface
         $this->symfony_request = $symfony_request;
     }
 
-    public function friends_list()
+    public function get_language()
     {
-        $context = new RequestContext();
-        $context->fromRequest($this->symfony_request);
-        $baseUrl = generate_board_url(true) . $context->getBaseUrl();
-
-        $scriptName = $this->symfony_request->getScriptName();
-        $scriptName = substr($scriptName, -1, 1) == '/' ? '' : utf8_basename($scriptName);
-
-        if ($scriptName != '') {
-            $baseUrl = str_replace('/' . $scriptName, '', $baseUrl);
-        }
-
-        $friends = $this->model->getFriends();
-        $friends_online = array_filter($friends, function ($friend) {
-            return $friend['user_status'] != 0;
-        });
-        $this->template->assign_var('S_COUNT_FRIENDS', count($friends_online));
-        foreach ($friends as $friend) {
-            $this->template->assign_block_vars('chat_friends', array(
-                'U_USERID' => $friend['user_id'],
-                'U_USERNAME' => $friend['username'],
-                'U_USERCOLOR' => $friend['user_colour'],
-                'U_STATUS' => $friend['user_status'],
-                'U_USERINBOX' => $friend['inbox'],
-            ));
-        }
         $this->template->assign_vars(array(
-            'BASE_URL' => $baseUrl
+            'CHAT_LANGUAGE' => $this->user->lang_name
         ));
     }
 

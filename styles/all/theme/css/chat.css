@@ -4,7 +4,7 @@
   src: url("../fonts/chat-icons.eot?#iefix") format("embedded-opentype"), url("../fonts/chat-icons.woff") format("woff"), url("../fonts/chat-icons.ttf") format("truetype"), url("../fonts/chat-icons.svg#chat-icons") format("svg");
   font-weight: normal;
   font-style: normal; }
-.chat-icon, .chat_box .chat_head .options, .msg_box .msg_head .close, .msg_box .msg_footer .msg-send {
+.chat-icon, .close__button, .chat_box .chat_head .options, .msg_box .msg_footer .msg-send {
   font-family: "chat-icons" !important;
   content: attr(data-icon);
   font-style: normal !important;
@@ -20,6 +20,109 @@
   width: 21.33333px;
   border-radius: 50%; }
 
+.show-me {
+  transform: translate3d(-300px, 0, 0); }
+
+.chat__container {
+  height: 100%;
+  transition: transform 0.3s ease-in-out;
+  overflow: hidden; }
+
+.chat {
+  position: fixed;
+  background: #f2f2f2;
+  top: 0;
+  right: -300px;
+  height: 100%;
+  width: 300px;
+  box-shadow: 1px 3px 3px 1px #323232;
+  z-index: 1050; }
+
+.chat__user {
+  display: block;
+  width: 100%;
+  padding: 10px 20px;
+  color: white;
+  transition: 0.3s;
+  cursor: pointer; }
+  .chat__user:nth-child(even) {
+    background: #e6e6e6; }
+  .chat__user:hover {
+    background: #cccccc; }
+  .chat__user > * {
+    display: inline-block;
+    vertical-align: middle; }
+  .chat__user .chat__name {
+    font-size: 16px;
+    font-weight: 200; }
+
+.chat__avatar {
+  width: 40px;
+  background: #fff;
+  border-radius: 100px;
+  margin-right: 20px; }
+
+.chat__header {
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  font-weight: 100;
+  color: #ffffff;
+  padding: 10px 20px;
+  background-color: #FF5722;
+  border-bottom: 3px solid #ee3900; }
+
+.chat__button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  -webkit-appearance: none;
+  font-size: 1rem;
+  line-height: 1.2;
+  border-radius: 3px;
+  border: 3px solid #FF5722;
+  background: #FF5722;
+  color: white;
+  cursor: pointer;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-decoration: none !important;
+  text-align: center;
+  font-weight: normal;
+  padding: 10px 16px;
+  padding-left: 30px;
+  outline: 0;
+  transition: transform 0.3s ease-in-out;
+  z-index: 1051; }
+  .chat__button:before {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    bottom: 0;
+    margin: auto;
+    width: 10px;
+    height: 10px;
+    background: #53DD6C;
+    content: "";
+    border-radius: 100px; }
+  .chat__button:hover {
+    background: #ff4409; }
+  .chat__button:active {
+    bottom: 17px; }
+
+.close__button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.3rem;
+  width: 32px;
+  height: 32px;
+  text-align: center;
+  font-size: 1rem; }
+  .close__button:hover {
+    cursor: pointer; }
+  .close__button:before {
+    content: "\e006"; }
+
 .chat_box {
   position: fixed;
   right: 20px;
@@ -27,7 +130,7 @@
   width: 250px;
   background-color: #fff;
   box-shadow: 0px 3px 3px 0px rgba(50, 50, 50, 0.5);
-  z-index: 1000; }
+  z-index: 1050; }
   .chat_box .chat_head {
     height: 32px;
     padding: 5px 0px;
@@ -122,10 +225,10 @@
 .msg_box {
   position: fixed;
   bottom: -5px;
-  width: 250px;
+  width: 300px;
   background-color: #fff;
   box-shadow: 0px 3px 3px 0px rgba(50, 50, 50, 0.5);
-  z-index: 1010;
+  z-index: 1060;
   transition: 0.3s ease; }
   .msg_box .msg_head {
     height: 2rem;
@@ -149,21 +252,9 @@
     .msg_box .msg_head .user-name {
       font-size: 0.9rem;
       font-weight: 200; }
-    .msg_box .msg_head .close {
-      position: absolute;
-      top: 0.5rem;
-      right: 0.3rem;
-      width: 32px;
-      height: 32px;
-      text-align: center;
-      font-size: 1rem; }
-      .msg_box .msg_head .close:hover {
-        cursor: pointer; }
-      .msg_box .msg_head .close:before {
-        content: "\e006"; }
   .msg_box .msg_wrap {
     overflow: scroll;
-    height: 400px;
+    height: 300px;
     background: #f2f2f2;
     -ms-overflow-style: none;
     overflow: -moz-scrollbars-none;
@@ -243,7 +334,7 @@
       font-size: 20px;
       font-weight: bold; }
   .msg_box .msg_footer {
-    width: 250px;
+    width: 100%;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -254,7 +345,7 @@
       height: 54px;
       background: #ffffff;
       border: none;
-      width: calc(100% - 54px);
+      width: 100%;
       position: absolute;
       left: 0;
       top: 0;
@@ -264,6 +355,7 @@
       padding-top: 19px;
       font-weight: 300;
       font-size: 12px;
+      box-sizing: border-box;
       -ms-overflow-style: none;
       overflow: -moz-scrollbars-none; }
       .msg_box .msg_footer .msg-input:focus {
